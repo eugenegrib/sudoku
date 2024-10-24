@@ -1,0 +1,48 @@
+# Игнорирование системных файлов
+.DS_Store
+Thumbs.db
+
+# Игнорирование логов и временных файлов Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+
+# Игнорирование автонастроек пакетов
+[Pp]ackages/manifest.json
+[Pp]ackages/packages-lock.json
+
+# Игнорирование пользовательских настроек
+UserSettings/
+
+# Игнорирование файлов сборок Visual Studio
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Игнорирование файлов для IDE
+.idea/
+*.iml
+
+# Игнорирование метафайлов (метаданные Unity)
+*.meta
+
+# Игнорирование настроек сборки
+*.vs/
+*.VC.db
+*.pidb.meta
+*.pdb
+*.opendb
+*.VC.opendb
+
+# Игнорирование настроек для Mac
+*.swp

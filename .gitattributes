@@ -1,0 +1,8 @@
+# Все текстовые файлы должны иметь LF
+* text eol=lf
+# Шрифты и изображения как бинарные файлы
+*.ttf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
