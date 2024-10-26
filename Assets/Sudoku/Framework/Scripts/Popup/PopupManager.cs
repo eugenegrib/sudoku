@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using dotmob;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
 using UnityEngine;
 
 namespace Sudoku.Framework.Scripts.Popup
@@ -74,7 +72,7 @@ namespace Sudoku.Framework.Scripts.Popup
 
 				if (popup.Show(inData, popupClosed))
 				{
-					API.HideBanner();
+				//	API.HideBanner();
 					activePopups.Add(popup);
 				}
 			}

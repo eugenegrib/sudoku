@@ -1,6 +1,4 @@
 using dotmob;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
 using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Game
@@ -20,16 +18,16 @@ namespace Sudoku.Scripts.Game
 
         private void TaskOnClick()
         {
-            // Debug.Log("XEM quang cao de tiep tuc");
+            /*// Debug.Log("XEM quang cao de tiep tuc");
             if (API.IsRewardedVideoAvailable())
             {
                 button.gameObject.SetActive(true);
                 API.ShowRewardedVideo(CompleteMethod);
             }
             else
-            {
+            {*/
                 button.gameObject.SetActive(false);
-            }
+            //}
         }
 
         private void CompleteMethod(bool completed)

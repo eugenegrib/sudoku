@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
 using Sudoku.Framework.Scripts.Popup;
 
 namespace dotmob
@@ -77,7 +75,7 @@ namespace dotmob
 		public bool Show(object[] inData, PopupClosed callback)
 		{
 			//Advertisements.Instance.HideBanner();
-			API.HideBanner();
+			//API.HideBanner();
 			
 			if (state != State.Hidden)
 			{
@@ -188,7 +186,7 @@ private void DoZoomAnim()
 
 public void Hide(bool cancelled, object[] outData)
 {
-    API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
+    //API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
 
     // Проверка состояния
     if (state != State.Shown && state != State.Showing)

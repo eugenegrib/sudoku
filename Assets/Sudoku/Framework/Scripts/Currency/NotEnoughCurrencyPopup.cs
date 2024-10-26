@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
 
 namespace dotmob
 {
@@ -55,6 +53,7 @@ namespace dotmob
 		public void OnRewardAdButtonClick()
 		{
 
+            /*
             if (!API.IsRewardedVideoAvailable())
             {
 				rewardAdButton.SetActive(false);
@@ -62,6 +61,7 @@ namespace dotmob
 				return;
 			}
 			API.ShowRewardedVideo(CompleteMethod);
+			*/
 			
 
 			Hide(false);

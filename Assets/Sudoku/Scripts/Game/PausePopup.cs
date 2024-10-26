@@ -1,6 +1,4 @@
 using dotmob;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
 using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Game

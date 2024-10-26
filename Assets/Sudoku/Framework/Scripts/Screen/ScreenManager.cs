@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
+using dotmob;
 using Sudoku.Framework.Scripts.Popup;
-using Sudoku.Framework.Scripts.Sound;
+using Sudoku.Scripts.Ads;
 using Sudoku.Scripts.Game;
+using UnityEngine;
 
-namespace dotmob
+namespace Sudoku.Framework.Scripts.Screen
 {
     public class ScreenManager : SingletonComponent<ScreenManager>
     {
@@ -26,14 +25,14 @@ namespace dotmob
         [SerializeField] private string homeScreenId = "main"; // ID главного экрана
 
         [Tooltip("Список компонентов экранов, которые используются в игре.")]
-        [SerializeField] private List<Screen> screens = null; // Список экранов
+        [SerializeField] private List<dotmob.Screen> screens = null; // Список экранов
 
         #endregion
 
         #region Member Variables
 
         private List<string> backStack; // Стек для сохранения истории экранов (назад)
-        private Screen currentScreen; // Экран, который сейчас отображается
+        private dotmob.Screen currentScreen; // Экран, который сейчас отображается
         [SerializeField] private GameObject topbar; // Верхняя панель
 
         #endregion
@@ -56,6 +55,8 @@ namespace dotmob
 
         private void Start()
         {
+            bannerController = FindObjectOfType<AdaptiveBannerSample>(); // Находим или создаем контроллер баннера
+
             // Инициализируем стек экранов
             backStack = new List<string>();
 
@@ -153,26 +154,36 @@ namespace dotmob
         #endregion
 
         #region Private Methods
+        private AdaptiveBannerSample bannerController; // Ссылка на контроллер баннера
 
+        
         private void Show(string screenId, bool back, bool immediate)
         {
-            Screen screen = GetScreenById(screenId);
-            if (screen == null)
-            {
-                Debug.LogError("[ScreenController] Не удалось найти экран с ID: " + screenId);
-                return;
-            }
-
+            dotmob.Screen screen = GetScreenById(screenId);
+            if (screen == null) return;
+        
             if (currentScreen != null)
             {
                 currentScreen.Hide(back, immediate);
-                if (!back) backStack.Add(currentScreen.Id);
-                OnSwitchingScreens?.Invoke(currentScreen.Id, screenId);
             }
 
             screen.Show(back, immediate);
             currentScreen = screen;
-            OnShowingScreen?.Invoke(screenId);
+        
+            if (bannerController != null)
+            {
+                if (screen.showBanner)
+                {
+                    Debug.Log("Показываем баннер для экрана: " + screen.Id);
+                    bannerController.ShowBanner();
+                }
+                else
+                {
+                    Debug.Log("Скрываем баннер для экрана: " + screen.Id);
+                    bannerController.HideBanner();
+                }
+
+            }
         }
 
         private void ClearBackStack()
@@ -180,7 +191,7 @@ namespace dotmob
             backStack.Clear();
         }
 
-        private Screen GetScreenById(string id)
+        private dotmob.Screen GetScreenById(string id)
         {
             foreach (var screen in screens)
             {
@@ -209,11 +220,11 @@ namespace dotmob
 
             bool adCompleted = false;
 
-            // Попытка показать межстраничную рекламу
+            /*// Попытка показать межстраничную рекламу
             if (API.IsInterstitialAvailable())  // Проверяем, доступна ли реклама
             {
                 API.ShowInterstitial(() => adCompleted = true, () => adCompleted = true); // Коллбэк на завершение рекламы
-            }
+            }*/
 
             // Ждем либо завершения показа рекламы, либо таймаута
             float elapsedTime = 0f;

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using dotmob;
 using dotmob.Sudoku;
-using Gley.MobileAds;
-using Gley.MobileAds.Scripts.ToUse;
 using Sudoku.Framework.Scripts.Popup;
+using Sudoku.Framework.Scripts.Screen;
 using Sudoku.Framework.Scripts.Sound;
 using UnityEngine;
 
@@ -151,7 +150,7 @@ namespace Sudoku.Scripts.Game
 
         protected override void Awake()
         {
-            API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
+           // API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
 
             base.Awake();
 

@@ -32,6 +32,7 @@ namespace dotmob
 		#endregion
 
 		#region Inspector Variables
+		[SerializeField] public bool showBanner;
 
 		[SerializeField] private string id = "";
 		[Space]
