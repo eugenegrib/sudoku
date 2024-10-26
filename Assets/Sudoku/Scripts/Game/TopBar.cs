@@ -8,7 +8,7 @@ namespace dotmob.Sudoku
 	{
 		#region Inspector Variables
 
-		[SerializeField] private CanvasGroup backButton = null;
+		//[SerializeField] private Image backButton = null;
 
 		#endregion
 
@@ -16,7 +16,7 @@ namespace dotmob.Sudoku
 
 		private void Start()
 		{
-			backButton.alpha = 0f;
+			//backButton.alpha = 0f;
 
 			ScreenManager.Instance.OnSwitchingScreens += OnSwitchingScreens;
 		}
@@ -29,19 +29,19 @@ namespace dotmob.Sudoku
 		{
 			if (fromScreen == "main")
 			{
-				UIAnimation anim = UIAnimation.Alpha(backButton, 0f, 1f, 0.5f);
+				//UIAnimation anim = UIAnimation.Alpha(backButton, 0f, 1f, 0.5f);
 
-				anim.style = UIAnimation.Style.EaseOut;
+				//anim.style = UIAnimation.Style.EaseOut;
 
-				anim.Play();
+				//anim.Play();
 			}
 			else if (toScreen == "main")
 			{
-				UIAnimation anim = UIAnimation.Alpha(backButton, 1f, 0f, 0.5f);
+			//	UIAnimation anim = UIAnimation.Alpha(backButton, 1f, 0f, 0.5f);
 
-				anim.style = UIAnimation.Style.EaseOut;
+			//	anim.style = UIAnimation.Style.EaseOut;
 
-				anim.Play();
+			//	anim.Play();
 			}
 		}
 

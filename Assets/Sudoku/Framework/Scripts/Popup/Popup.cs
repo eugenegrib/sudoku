@@ -111,45 +111,6 @@ namespace dotmob
 			Hide(cancelled, null);
 		}
 
-		public void Hide(bool cancelled, object[] outData)
-		{
-			//Advertisements.Instance.ShowBanner(BannerPosition.BOTTOM, BannerType.Banner);
-			API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
-			switch (state)
-			{
-				case State.Hidden:
-				case State.Hidding:
-					return;
-				case State.Showing:
-					UIAnimation.DestroyAllAnimations(gameObject);
-					UIAnimation.DestroyAllAnimations(animContainer.gameObject);
-					break;
-			}
-
-			state = State.Hidding;
-
-			if (callback != null)
-			{
-				callback(cancelled, outData);
-			}
-
-			// Start the popup hide animations
-			UIAnimation anim = null;
-
-			anim = UIAnimation.Alpha(CG, 1f, 0f, animDuration);
-			anim.style = UIAnimation.Style.EaseOut;
-			anim.startOnFirstFrame = true;
-
-			anim.OnAnimationFinished += (GameObject target) => 
-			{
-				state = State.Hidden;
-				gameObject.SetActive(false);
-			};
-
-			anim.Play();
-
-			OnHiding();
-		}
 
 		public void HideWithAction(string action)
 		{
@@ -171,39 +132,99 @@ namespace dotmob
 		#region Private Methods
 
 		private void DoFadeAnim()
-		{
-			// Start the popup show animations
-			UIAnimation anim = null;
+{
+    // Анимация самого попапа
+    UIAnimation anim = UIAnimation.Alpha(CG, 0f, 1f, animDuration);
+    anim.startOnFirstFrame = true;
+    anim.OnAnimationFinished += (GameObject obj) => { state = State.Shown; };
+    anim.Play();
 
-			anim = UIAnimation.Alpha(CG, 0f, 1f, animDuration);
-			anim.startOnFirstFrame = true;
-			anim.OnAnimationFinished += (GameObject obj) => { state = State.Shown; };
-			anim.Play();
-		}
+    // Анимация для всех дочерних объектов
+    foreach (Transform child in animContainer)
+    {
+        CanvasGroup childCanvasGroup = child.GetComponent<CanvasGroup>();
+        if (childCanvasGroup != null)
+        {
+            UIAnimation childAnim = UIAnimation.Alpha(childCanvasGroup, 0f, 1f, animDuration);
+            childAnim.startOnFirstFrame = true;
+            childAnim.Play();
+        }
+    }
+}
 
-		private void DoZoomAnim()
-		{
-			// Start the popup show animations
-			UIAnimation anim = null;
+private void DoZoomAnim()
+{
+    // Анимация альфа-канала и масштабирования для pop-up
+    UIAnimation anim = UIAnimation.Alpha(CG, 0f, 1f, animDuration);
+    anim.style = UIAnimation.Style.EaseOut;
+    anim.startOnFirstFrame = true;
+    anim.Play();
 
-			anim = UIAnimation.Alpha(CG, 0f, 1f, animDuration);
-			anim.style = UIAnimation.Style.EaseOut;
-			anim.startOnFirstFrame = true;
-			anim.Play();
+    anim = UIAnimation.ScaleX(animContainer, 0f, 1f, animDuration);
+    anim.style = UIAnimation.Style.Custom;
+    anim.animationCurve = animCurve;
+    anim.startOnFirstFrame = true;
+    anim.Play();
 
-			anim					= UIAnimation.ScaleX(animContainer, 0f, 1f, animDuration);
-			anim.style				= UIAnimation.Style.Custom;
-			anim.animationCurve		= animCurve;
-			anim.startOnFirstFrame	= true;
-			anim.Play();
+    anim = UIAnimation.ScaleY(animContainer, 0f, 1f, animDuration);
+    anim.style = UIAnimation.Style.Custom;
+    anim.animationCurve = animCurve;
+    anim.startOnFirstFrame = true;
+    anim.OnAnimationFinished += (GameObject obj) => { state = State.Shown; };
+    anim.Play();
 
-			anim					= UIAnimation.ScaleY(animContainer, 0f, 1f, animDuration);
-			anim.style				= UIAnimation.Style.Custom;
-			anim.animationCurve		= animCurve;
-			anim.startOnFirstFrame	= true;
-			anim.OnAnimationFinished += (GameObject obj) => { state = State.Shown; };
-			anim.Play();
-		}
+    // Анимация для всех дочерних объектов
+    foreach (Transform child in animContainer)
+    {
+        CanvasGroup childCanvasGroup = child.GetComponent<CanvasGroup>();
+        if (childCanvasGroup != null)
+        {
+            UIAnimation childAnim = UIAnimation.Alpha(childCanvasGroup, 0f, 1f, animDuration);
+            childAnim.startOnFirstFrame = true;
+            childAnim.Play();
+        }
+    }
+}
+
+public void Hide(bool cancelled, object[] outData)
+{
+    API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
+
+    // Проверка состояния
+    if (state != State.Shown && state != State.Showing)
+        return;
+
+    state = State.Hidding;
+    callback?.Invoke(cancelled, outData);
+
+    // Анимация для самого контейнера
+    UIAnimation anim = UIAnimation.Alpha(CG, 1f, 0f, animDuration);
+    anim.style = UIAnimation.Style.EaseOut;
+    anim.startOnFirstFrame = true;
+
+    anim.OnAnimationFinished += (GameObject target) => 
+    {
+        state = State.Hidden;
+        gameObject.SetActive(false);
+    };
+    anim.Play();
+
+    // Анимация для всех дочерних объектов
+    foreach (Transform child in animContainer)
+    {
+        CanvasGroup childCanvasGroup = child.GetComponent<CanvasGroup>();
+        if (childCanvasGroup != null)
+        {
+            UIAnimation childAnim = UIAnimation.Alpha(childCanvasGroup, 1f, 0f, animDuration);
+            childAnim.style = UIAnimation.Style.EaseOut;
+            childAnim.startOnFirstFrame = true;
+            childAnim.Play();
+        }
+    }
+
+    OnHiding();
+}
+
 
 		#endregion
 	}

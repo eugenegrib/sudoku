@@ -144,6 +144,7 @@ namespace dotmob
             //topbar.SetActive(true);
 
             Show("gameSelect");
+            topbar.gameObject.SetActive(false);
 
             //Show(gameSelectScreenId, false, false);
 

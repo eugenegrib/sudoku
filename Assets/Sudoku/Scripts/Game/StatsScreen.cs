@@ -10,9 +10,7 @@ namespace dotmob.Sudoku
     {
         #region Inspector Variables
 
-        [Space]
-
-        [SerializeField] private StatsListItem statsListItemPrefab = null;
+        [Space] [SerializeField] private StatsListItem statsListItemPrefab = null;
         [SerializeField] private Transform statsListContainer = null;
 
         #endregion
@@ -23,7 +21,20 @@ namespace dotmob.Sudoku
 
         #endregion
 
+        [SerializeField] private GameObject newGame; // Верхняя панель
+        [SerializeField] private GameObject pause; // Верхняя панель
+        [SerializeField] private GameObject back; // Верхняя панель
+
         #region Public Methods
+
+        public void Back()
+        {
+            newGame.gameObject.SetActive(true);
+            pause.gameObject.SetActive(true);
+            back.gameObject.SetActive(false);
+
+            ScreenManager.Instance.Back();
+        }
 
         public override void Initialize()
         {
@@ -31,9 +42,13 @@ namespace dotmob.Sudoku
             statsListItemPool = new ObjectPool(statsListItemPrefab.gameObject, 4, statsListContainer);
         }
 
-        public override void Show(bool back, bool immediate)
-        {
-            base.Show(back, immediate);
+        public override void Show(bool back1, bool immediate)
+        {         
+            newGame.gameObject.SetActive(false);
+            pause.gameObject.SetActive(false);
+            back.gameObject.SetActive(true);
+
+            base.Show(back1, immediate);
 
             statsListItemPool.ReturnAllObjectsToPool();
 

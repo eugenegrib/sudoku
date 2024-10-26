@@ -388,13 +388,13 @@ namespace dotmob.Sudoku
 					bool topBorder		= (r == 0 || (r % activePuzzleData.boxRows) == 0);
 					bool bottomBorder	= (r == activePuzzleData.boardSize - 1);
 
-					puzzleBoardCell.SetBorders(leftBorder, rightBorder, topBorder, bottomBorder);
 
 					// Set the grid lines for the cell
 					bool leftGridLine	= !leftBorder;
 					bool topGridLine	= !topBorder;
 
 					puzzleBoardCell.SetGridLines(leftGridLine, topGridLine);
+					puzzleBoardCell.SetBorders(leftBorder, rightBorder, topBorder, bottomBorder);
 
 					// Set the on click data/method
 					puzzleBoardCell.Data				= new int[] { r, c };

@@ -33,7 +33,7 @@ namespace Sudoku.Scripts.Game
         */
         }
 
-        private void newGameClicked()
+        public void newGameClicked()
         {
             
             base.Hide(true);
@@ -49,7 +49,7 @@ namespace Sudoku.Scripts.Game
             }*/
         }
 
-        private void continueClicked()
+        public void continueClicked()
         {
             base.Hide(true);
             GameManager.Instance.ResumeGame();         }

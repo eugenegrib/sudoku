@@ -70,18 +70,30 @@ namespace Sudoku.Framework.Scripts.Popup
 
 			if (popup != null)
 			{
+				TriggerAnimation(popup.transform); // Запуск анимаций всех вложенных объектов
+
 				if (popup.Show(inData, popupClosed))
 				{
-					//Advertisements.Instance.HideBanner();
 					API.HideBanner();
 					activePopups.Add(popup);
-                    
-					//Time.timeScale = 0;
 				}
 			}
 			else
 			{
 				Debug.LogErrorFormat("[PopupController] Popup with id {0} does not exist", id);
+			}
+		}
+		private void TriggerAnimation(Transform parent)
+		{
+			foreach (Transform child in parent)
+			{
+				Animator childAnimator = child.GetComponent<Animator>();
+				if (childAnimator != null)
+				{
+					childAnimator.SetTrigger("Show");
+				}
+				// Рекурсивный вызов для всех дочерних элементов
+				TriggerAnimation(child);
 			}
 		}
 

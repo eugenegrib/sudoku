@@ -134,6 +134,22 @@ namespace dotmob
 
 			anim.Play();
 		}
+		
+		void Start()
+		{
+			UnityEngine.Screen.fullScreen = true;
+			UnityEngine.Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+
+			// Скрываем статусбар на Android
+			if (Application.platform == RuntimePlatform.Android)
+			{
+				UnityEngine.Screen.sleepTimeout = SleepTimeout.NeverSleep;
+				var activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
+					.GetStatic<AndroidJavaObject>("currentActivity");
+				var window = activity.Call<AndroidJavaObject>("getWindow");
+				window.Call("addFlags", 1024); // WindowManager.LayoutParams.FLAG_FULLSCREEN
+			}
+		}
 
 		/// <summary>
 		/// Starts the swipe screen transition animation

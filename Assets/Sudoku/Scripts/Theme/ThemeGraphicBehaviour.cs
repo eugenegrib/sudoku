@@ -2,7 +2,6 @@
 using dotmob.Sudoku;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Sudoku.Scripts.Theme
 {

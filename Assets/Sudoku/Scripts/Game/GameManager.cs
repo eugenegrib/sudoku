@@ -11,6 +11,7 @@ namespace Sudoku.Scripts.Game
 {
     public class GameManager : SingletonComponent<GameManager>, ISaveable
     {
+
         #region Inspector Variables
 
         [Header("Data")] [SerializeField] private List<PuzzleGroupData> puzzleGroups = null;
@@ -118,7 +119,7 @@ namespace Sudoku.Scripts.Game
 
             var puzzleGroup = GetPuzzleGroup(ActivePuzzleData.groupId);
 
-            SoundManager.Instance.Play("lose");
+            //SoundManager.Instance.Play("lose");
 
             object[] popupData =
             {
@@ -131,8 +132,8 @@ namespace Sudoku.Scripts.Game
             }
 
             ActivePuzzleData.elapsedTime = 0;
-            SoundManager.Instance.PlayAtStart(SoundManager.SoundType.Music);
-
+            //SoundManager.Instance.PlayAtStart(SoundManager.SoundType.Music);
+            SoundManager.Instance.ResumeMusic(); 
         }
 
         public void ResumeGame()
@@ -362,6 +363,7 @@ namespace Sudoku.Scripts.Game
             SoundManager.Instance.StartPlayMusic();
         }
 
+       
         /// <summary>
         /// Gets the puzzle group with the given id
         /// </summary>
