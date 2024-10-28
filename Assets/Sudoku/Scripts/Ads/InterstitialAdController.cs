@@ -13,7 +13,7 @@ namespace Sudoku.Scripts.Ads
         /// <summary>
         /// UI element activated when an ad is ready to show.
         /// </summary>
-        public GameObject AdLoadedStatus;
+        //public GameObject AdLoadedStatus;
 
         // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
@@ -67,29 +67,39 @@ namespace Sudoku.Scripts.Ads
                 RegisterEventHandlers(ad);
 
                 // Inform the UI that the ad is ready.
-                AdLoadedStatus?.SetActive(true);
+              //  AdLoadedStatus?.SetActive(true);
             });
         }
 
-        /// <summary>
-        /// Shows the ad.
-        /// </summary>
+        // Определите событие для колбэк
+        public event Action OnAdClosed;
+        
+     
         public void ShowAd()
         {
             if (_interstitialAd != null && _interstitialAd.CanShowAd())
             {
                 Debug.Log("Showing interstitial ad.");
                 _interstitialAd.Show();
+
+                // Подписываемся на событие закрытия рекламы
+                _interstitialAd.OnAdFullScreenContentClosed += HandleAdClosed;
             }
             else
             {
                 Debug.LogError("Interstitial ad is not ready yet.");
             }
 
-            // Inform the UI that the ad is not ready.
-            AdLoadedStatus?.SetActive(false);
+           // AdLoadedStatus?.SetActive(false);
         }
 
+        private void HandleAdClosed()
+        {
+            Debug.Log("Interstitial ad closed.");
+            OnAdClosed?.Invoke(); // Вызываем колбэк
+            DestroyAd(); // Уничтожаем рекламу после закрытия
+        }
+        
         /// <summary>
         /// Destroys the ad.
         /// </summary>
@@ -103,7 +113,7 @@ namespace Sudoku.Scripts.Ads
             }
 
             // Inform the UI that the ad is not ready.
-            AdLoadedStatus?.SetActive(false);
+         //   AdLoadedStatus?.SetActive(false);
         }
 
         /// <summary>

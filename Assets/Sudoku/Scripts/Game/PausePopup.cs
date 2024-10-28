@@ -1,25 +1,15 @@
 using dotmob;
+using Sudoku.Framework.Scripts.Popup;
 using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Game
 {
     public class PausePopup : Popup
     {
-        public Button ContinueButton;
-        public Button NewGameButton;
-
-        Button continueButton;
-        Button newGameButton;
-
         private void Start()
         {
             GameManager.Instance.PauseGame(); // Останавливаем игру при открытии
 
-            continueButton = ContinueButton.GetComponent<Button>();
-            continueButton.onClick.AddListener(continueClicked);
-
-            newGameButton = NewGameButton.GetComponent<Button>();
-            newGameButton.onClick.AddListener(newGameClicked);
         }
 
 

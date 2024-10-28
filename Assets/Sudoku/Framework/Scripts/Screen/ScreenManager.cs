@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using dotmob;
 using Sudoku.Framework.Scripts.Popup;
@@ -12,27 +13,28 @@ namespace Sudoku.Framework.Scripts.Screen
     {
         #region Inspector Variables
 
-        [Tooltip("SplashScreen приложения, который отображается при запуске.")]
-        [SerializeField] private string splashScreenId = "splash"; // ID splash screen
+        [Tooltip("SplashScreen приложения, который отображается при запуске.")] [SerializeField]
+        private string splashScreenId = "splash"; // ID splash screen
 
-        [Tooltip("Экран меню выбора игры, который отображается после splash screen.")]
-        [SerializeField] private string gameMenuScreenId = "gameMenu"; // ID экрана меню выбора игры
+        [Tooltip("Экран меню выбора игры, который отображается после splash screen.")] [SerializeField]
+        private string gameMenuScreenId = "gameMenu"; // ID экрана меню выбора игры
 
-        [Tooltip("Экран выбора игры, который отображается после меню выбора.")]
-        [SerializeField] private string gameSelectScreenId = "gameSelect"; // ID экрана выбора игры
+        [Tooltip("Экран выбора игры, который отображается после меню выбора.")] [SerializeField]
+        private string gameSelectScreenId = "gameSelect"; // ID экрана выбора игры
 
         [Tooltip("Главный экран приложения, то есть первый экран, который отображается после экрана выбора.")]
-        [SerializeField] private string homeScreenId = "main"; // ID главного экрана
+        [SerializeField]
+        private string homeScreenId = "main"; // ID главного экрана
 
-        [Tooltip("Список компонентов экранов, которые используются в игре.")]
-        [SerializeField] private List<dotmob.Screen> screens = null; // Список экранов
+        [Tooltip("Список компонентов экранов, которые используются в игре.")] [SerializeField]
+        private List<Screen> screens = null; // Список экранов
 
         #endregion
 
         #region Member Variables
 
         private List<string> backStack; // Стек для сохранения истории экранов (назад)
-        private dotmob.Screen currentScreen; // Экран, который сейчас отображается
+        private Screen currentScreen; // Экран, который сейчас отображается
         [SerializeField] private GameObject topbar; // Верхняя панель
 
         #endregion
@@ -53,10 +55,13 @@ namespace Sudoku.Framework.Scripts.Screen
 
         #region Unity Methods
 
+        private void Awake()
+        {
+        }
+
+        [Obsolete("Obsolete")]
         private void Start()
         {
-            bannerController = FindObjectOfType<AdaptiveBannerSample>(); // Находим или создаем контроллер баннера
-
             // Инициализируем стек экранов
             backStack = new List<string>();
 
@@ -67,6 +72,7 @@ namespace Sudoku.Framework.Scripts.Screen
                 {
                     screen.gameObject.AddComponent<CanvasGroup>();
                 }
+
                 screen.Initialize();
                 screen.gameObject.SetActive(true);
                 screen.Hide(false, true);
@@ -77,6 +83,24 @@ namespace Sudoku.Framework.Scripts.Screen
 
             // Переход после сплэшки на экран меню
             StartCoroutine(ShowAdAndSwitchToGameMenu());
+
+            appOpenAdController = FindObjectOfType<AppOpenAdController>();
+            appOpenAdController.LoadAppOpenAd();
+            
+            // Найдите компонент InterstitialAdController в сцене
+            interstitialAdController = FindObjectOfType<InterstitialAdController>();
+
+            // Загрузите межстраничную рекламу
+            interstitialAdController.LoadAd();
+            // Найдите компонент InterstitialAdController в сцене
+
+
+            rewardedInterstitialAdController = FindObjectOfType<RewardedInterstitialAdController>();
+
+            // Загрузите межстраничную рекламу
+            rewardedInterstitialAdController.LoadAd();
+
+            bannerController = FindObjectOfType<AdaptiveBannerSample>(); // Находим или создаем контроллер баннера
         }
 
         private void Update()
@@ -130,38 +154,31 @@ namespace Sudoku.Framework.Scripts.Screen
 
         public void OnGameSelectContinue()
         {
-         Show("main");
-            // Переход на экран выбора игры после меню
-            //Show(gameSelectScreenId, false, false);
-
+            Show("main");
             topbar.SetActive(true);
-            
             GameManager.Instance.ContinueActiveGame();
-            
         }
 
         public void OnGameSelectNewGame()
         {
-            //topbar.SetActive(true);
-
             Show("gameSelect");
             topbar.gameObject.SetActive(false);
-
-            //Show(gameSelectScreenId, false, false);
-
         }
 
         #endregion
 
         #region Private Methods
-        private AdaptiveBannerSample bannerController; // Ссылка на контроллер баннера
 
-        
+        private AdaptiveBannerSample bannerController;
+        private InterstitialAdController interstitialAdController;
+        private RewardedInterstitialAdController rewardedInterstitialAdController;
+        private AppOpenAdController appOpenAdController;
+
         private void Show(string screenId, bool back, bool immediate)
         {
-            dotmob.Screen screen = GetScreenById(screenId);
+            Screen screen = GetScreenById(screenId);
             if (screen == null) return;
-        
+
             if (currentScreen != null)
             {
                 currentScreen.Hide(back, immediate);
@@ -169,7 +186,7 @@ namespace Sudoku.Framework.Scripts.Screen
 
             screen.Show(back, immediate);
             currentScreen = screen;
-        
+
             if (bannerController != null)
             {
                 if (screen.showBanner)
@@ -182,7 +199,6 @@ namespace Sudoku.Framework.Scripts.Screen
                     Debug.Log("Скрываем баннер для экрана: " + screen.Id);
                     bannerController.HideBanner();
                 }
-
             }
         }
 
@@ -191,7 +207,7 @@ namespace Sudoku.Framework.Scripts.Screen
             backStack.Clear();
         }
 
-        private dotmob.Screen GetScreenById(string id)
+        private Screen GetScreenById(string id)
         {
             foreach (var screen in screens)
             {
@@ -207,53 +223,58 @@ namespace Sudoku.Framework.Scripts.Screen
 
         private IEnumerator ShowAdAndSwitchToGameMenu()
         {
-            float adTimeout = 5.0f;  // Максимальное время ожидания показа рекламы (5 секунд)
-            float adDelay = 2.0f;    // Минимальная задержка перед показом рекламы (2 секунды)
-    
             float splashScreenDisplayTime = 2.0f; // Минимальное время показа сплэш-экрана (2 секунды)
+            float adTimeout = 5.0f; // Таймаут для показа рекламы (5 секунд)
 
             // Показать сплэш-экран
-            yield return new WaitForSeconds(splashScreenDisplayTime); // Ждем, чтобы сплэш-экран отображался минимум 2 секунды
+            yield return
+                new WaitForSeconds(splashScreenDisplayTime); // Ждем, чтобы сплэш-экран отображался минимум 2 секунды
 
-            // Переход к ожиданию рекламы
-            yield return new WaitForSeconds(adDelay); // Дополнительная задержка перед показом рекламы
+            bool adShown = false;
 
-            bool adCompleted = false;
-
-            /*// Попытка показать межстраничную рекламу
-            if (API.IsInterstitialAvailable())  // Проверяем, доступна ли реклама
+            // Показ межстраничной рекламы
+            if (interstitialAdController != null)
             {
-                API.ShowInterstitial(() => adCompleted = true, () => adCompleted = true); // Коллбэк на завершение рекламы
-            }*/
+                interstitialAdController.OnAdClosed += () =>
+                {
+                    adShown = true; // Установить флаг, если реклама была показана
+                    Show(gameMenuScreenId, false, false); // Показать экран меню
+                };
 
-            // Ждем либо завершения показа рекламы, либо таймаута
-            float elapsedTime = 0f;
-            while (!adCompleted && elapsedTime < adTimeout)
-            {
-                yield return null;
-                elapsedTime += Time.deltaTime;  // Считаем время
+                interstitialAdController.ShowAd();
+
+                // Ждем 5 секунд или пока реклама не будет показана
+                float elapsedTime = 0f;
+                while (!adShown && elapsedTime < adTimeout)
+                {
+                    yield return null; // Ждем один кадр
+                    elapsedTime += Time.deltaTime; // Увеличиваем время
+                }
+
+                // Если реклама не была показана, переходим на экран меню
+                if (!adShown)
+                {
+                    Debug.Log("Реклама не была показана, переходим на следующий экран.");
+                    Show(gameMenuScreenId, false, false);
+                }
             }
-
-            // Если реклама не была показана, переходим на экран выбора игры
-            if (!adCompleted)
+            else
             {
-                Debug.Log("Реклама не была показана, переходим на следующий экран.");
+                // Переход на экран меню выбора игры, если реклама недоступна
+                Show(gameMenuScreenId, false, false);
             }
-
-            // Переход на экран меню выбора игры
-            Show(gameMenuScreenId, false, false);
         }
 
-        public void openMenuScreen()
+        public void OpenMenuScreen()
         {
             Show(gameMenuScreenId, false, false);
         }
-        
-        public  void OpenHomeScreen()
+
+        public void OpenHomeScreen()
         {
             Show(homeScreenId, false, false);
-
         }
+
         #endregion
     }
 }

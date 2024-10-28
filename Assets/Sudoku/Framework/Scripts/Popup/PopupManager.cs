@@ -15,7 +15,7 @@ namespace Sudoku.Framework.Scripts.Popup
 			public string popupId = "";
 
 			[Tooltip("The Popup component to show.")]
-			public dotmob.Popup popup = null;
+			public Popup popup = null;
 		}
 
 		#endregion
@@ -28,7 +28,7 @@ namespace Sudoku.Framework.Scripts.Popup
 
 		#region Member Variables
 
-		private List<dotmob.Popup> activePopups;
+		private List<Popup> activePopups;
 
 		#endregion
 
@@ -39,7 +39,7 @@ namespace Sudoku.Framework.Scripts.Popup
 			base.Awake();
 			
 
-			activePopups = new List<dotmob.Popup>();
+			activePopups = new List<Popup>();
 
 			for (int i = 0; i < popupInfos.Count; i++)
 			{
@@ -62,9 +62,9 @@ namespace Sudoku.Framework.Scripts.Popup
 			Show(id, inData, null);
 		}
 
-		public void Show(string id, object[] inData, dotmob.Popup.PopupClosed popupClosed)
+		public void Show(string id, object[] inData, Popup.PopupClosed popupClosed)
 		{
-			dotmob.Popup popup = GetPopupById(id);
+			Popup popup = GetPopupById(id);
 
 			if (popup != null)
 			{
@@ -101,7 +101,7 @@ namespace Sudoku.Framework.Scripts.Popup
 			{
 				int index = activePopups.Count - 1;
 
-				dotmob.Popup popup = activePopups[index];
+				Popup popup = activePopups[index];
 
 				if (popup.CanAndroidBackClosePopup)
 				{
@@ -115,7 +115,7 @@ namespace Sudoku.Framework.Scripts.Popup
 			return false;
 		}
 
-		public void OnPopupHiding(dotmob.Popup popup)
+		public void OnPopupHiding(Popup popup)
 		{
 			for (int i = activePopups.Count - 1; i >= 0; i--)
 			{
@@ -132,7 +132,7 @@ namespace Sudoku.Framework.Scripts.Popup
 
 		#region Private Methods
 
-		private dotmob.Popup GetPopupById(string id)
+		private Popup GetPopupById(string id)
 		{
 			for (int i = 0; i < popupInfos.Count; i++)
 			{

@@ -2,11 +2,12 @@ using dotmob;
 using Sudoku.Framework.Scripts.Screen;
 using UnityEngine;
 using UnityEngine.UI;
-using Screen = dotmob.Screen;
+using Screen = Sudoku.Framework.Scripts.Screen.Screen;
+using Screen_Screen = Sudoku.Framework.Scripts.Screen.Screen;
 
 namespace Sudoku.Scripts.Game
 {
-    public class GameMenuScreen : Screen
+    public class GameMenuScreen : Screen_Screen
     {
         [SerializeField] private Button continueButton; // Кнопка "Продолжить игру"
         [SerializeField] private Button newGameButton;  // Кнопка "Новая игра"

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Sudoku.Framework.Scripts.Screen;
+using Sudoku.Framework.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 

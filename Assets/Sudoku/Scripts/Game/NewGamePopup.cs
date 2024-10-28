@@ -1,4 +1,5 @@
 using dotmob;
+using Sudoku.Framework.Scripts.Popup;
 using Sudoku.Framework.Scripts.Screen;
 using UnityEngine.UI;
 
@@ -14,11 +15,9 @@ namespace Sudoku.Scripts.Game
 
         private void Start()
         {
-            GameManager.Instance.PauseGame(); // Останавливаем игру при открытии
-
+            GameManager.Instance.PauseGame(); 
             continueButton = ContinueButton.GetComponent<Button>();
             continueButton.onClick.AddListener(continueClicked);
-
             newGameButton = NewGameButton.GetComponent<Button>();
             newGameButton.onClick.AddListener(newGameClicked);
         }
@@ -27,32 +26,17 @@ namespace Sudoku.Scripts.Game
         public override void Hide(bool result)
         {
             base.Hide(result);
-            /*
-            GameManager.Instance.ResumeGame(); // Возобновляем игру при закрытии
-        */
         }
 
-        public   void newGameClicked()
+        public void newGameClicked()
         {
-            
             base.Hide(true);
             ScreenManager.Instance.OnGameSelectNewGame(); // Вызываем метод начала новой игры из ScreenManager
-            /*// Показываем рекламу для продолжения
-            if (API.IsRewardedVideoAvailable())
-            {
-                newGameButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                newGameButton.gameObject.SetActive(false);
-            }*/
         }
 
-        public  void continueClicked()
+        public void continueClicked()
         {
             base.Hide(true);
             GameManager.Instance.ResumeGame();         }
-
-        
     }
 }

@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Sudoku.Scripts.Game;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Screen = Sudoku.Framework.Scripts.Screen.Screen;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Scripts.Game
 {
 	public class MainScreen : Screen
 	{

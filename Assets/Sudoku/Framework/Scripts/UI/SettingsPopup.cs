@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sudoku.Framework.Scripts.UI
 {
-    public class SettingsPopup : dotmob.Popup
+    public class SettingsPopup : Popup.Popup
     {
         public override void Hide(bool result)
         {

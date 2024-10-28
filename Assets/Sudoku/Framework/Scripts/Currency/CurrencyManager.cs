@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using dotmob;
 using Sudoku.Framework.Scripts.Popup;
 using UnityEngine;
+using UnityEngine.Localization;
 
-namespace dotmob
+namespace Sudoku.Framework.Scripts.Currency
 {
 	public class CurrencyManager : SingletonComponent<CurrencyManager>, ISaveable
 	{
@@ -15,11 +16,11 @@ namespace dotmob
 			public string	id						= "";    // Уникальный идентификатор валюты
 			public int		startingAmount			= 0;    // Начальное количество валюты
 			public bool		showNotEnoughPopup		= false; // Показывать ли всплывающее окно, если недостаточно валюты
-			public string	popupTitleText			= "";    // Заголовок всплывающего окна
-			public string	popupMessageText		= "";    // Текст сообщения во всплывающем окне
+			public LocalizedString popupTitleText			= null;    // Заголовок всплывающего окна
+			public LocalizedString	popupMessageText		= null;    // Текст сообщения во всплывающем окне
 			public bool		popupHasStoreButton		= false; // Есть ли кнопка перехода в магазин в окне
 			public bool		popupHasRewardAdButton	= false; // Есть ли кнопка просмотра рекламы для получения вознаграждения
-			public string	rewardButtonText		= "";    // Текст кнопки для рекламы с наградой
+			public LocalizedString	rewardButtonText		= null;    // Текст кнопки для рекламы с наградой
 			public int		rewardAmount			= 0;    // Количество вознаграждения за просмотр рекламы
 		}
 

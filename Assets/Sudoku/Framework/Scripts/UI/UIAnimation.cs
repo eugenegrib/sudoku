@@ -525,17 +525,28 @@ namespace dotmob
 		{
 			return CreateAnimation(Type.Alpha, canvasGroup.gameObject, true, 0, to, duration);
 		}
-
+		public static UIAnimation Alpha(RectTransform rectTransform, float from, float to, float duration)
+		{
+			return CreateAnimation(Type.Alpha, rectTransform.gameObject, false, from, to, duration);
+		}
+		public static UIAnimation Alpha(Component component, float from, float to, float duration)
+		{
+			return CreateAnimation(Type.Alpha, component.gameObject, false, from, to, duration);
+		}
 		public static UIAnimation Alpha(CanvasGroup canvasGroup, float from, float to, float duration)
 		{
 			return CreateAnimation(Type.Alpha, canvasGroup.gameObject, false, from, to, duration);
 		}
-
+		public static UIAnimation Alpha(Image image, float from, float to, float duration)
+		{
+			return CreateAnimation(Type.Alpha, image.gameObject, false, from, to, duration);
+		}
 		public static UIAnimation Color(Graphic graphic, Color to, float duration)
 		{
 			return CreateColorAnimation(graphic.gameObject, true, UnityEngine.Color.white, to, duration);
 		}
-
+		
+		
 		public static UIAnimation Color(Graphic graphic, Color from, Color to, float duration)
 		{
 			return CreateColorAnimation(graphic.gameObject, false, from, to, duration);

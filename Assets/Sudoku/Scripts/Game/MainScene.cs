@@ -1,33 +1,20 @@
-
-using UnityEngine.UI;
-
+using System;
+using dotmob;
+using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using Sudoku.Scripts.Ads;
+using UnityEngine;
 
-namespace Sudoku.Scripts
+namespace Sudoku.Scripts.Game
 {
-    using GoogleMobileAds.Api;
-    using GoogleMobileAds.Common;
-    using UnityEngine;
-
-    public class MainScene : MonoBehaviour
+    public class MainScene : SingletonComponent<MainScene>
     {
-        AppOpenAdController appOpenAdController;
+        [SerializeField] public AdaptiveBannerSample adaptiveBannerSample;
+        [SerializeField] public AppOpenAdController appOpenAdController;
+
         public void Start()
-        {      
-
-            // TODO: Request an app open ad.
-            MobileAds.Initialize((initStatus) =>
-            {
-                AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
-            });
-        }
-
-        public void OnAppStateChanged(AppState state)
         {
-            if (state == AppState.Foreground)
-            {
-                appOpenAdController.ShowAppOpenAd();
-            }
+            MobileAds.Initialize((initStatus) => { appOpenAdController.LoadAppOpenAd(); });
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using GoogleMobileAds.Api;
 using UnityEngine;
 
+/*
 namespace Sudoku.Scripts.Ads
 {
    
@@ -174,3 +175,4 @@ namespace Sudoku.Scripts.Ads
         }
     }
 }
+*/

@@ -1,12 +1,13 @@
 using dotmob;
 using Sudoku.Framework.Scripts.Screen;
 using UnityEngine;
-using Screen = dotmob.Screen;
+using Screen = Sudoku.Framework.Scripts.Screen.Screen;
+using Screen_Screen = Sudoku.Framework.Scripts.Screen.Screen;
 
 namespace Sudoku.Scripts.Game
 
 {
-    public class SelectScreen : Screen
+    public class SelectScreen : Screen_Screen
     {
         [SerializeField] private GameObject topbar; // Верхняя панель
 

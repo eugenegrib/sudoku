@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using dotmob;
 using Sudoku.Framework.Scripts.Screen;
-using Sudoku.Scripts.Game;
 using Sudoku.Scripts.Theme;
 using UnityEngine;
+using Screen = Sudoku.Framework.Scripts.Screen.Screen;
+using Screen_Screen = Sudoku.Framework.Scripts.Screen.Screen;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Scripts.Game
 {
-    public class StatsScreen : Screen
+    public class StatsScreen : Screen_Screen
     {
         #region Inspector Variables
 
@@ -25,6 +25,8 @@ namespace dotmob.Sudoku
         [SerializeField] private GameObject newGame; // Верхняя панель
         [SerializeField] private GameObject pause; // Верхняя панель
         [SerializeField] private GameObject back; // Верхняя панель
+        [SerializeField] private GameObject setting; // Верхняя панель
+        [SerializeField] private GameObject theme; // Верхняя панель
 
         #region Public Methods
 
@@ -33,8 +35,9 @@ namespace dotmob.Sudoku
             newGame.gameObject.SetActive(true);
             pause.gameObject.SetActive(true);
             back.gameObject.SetActive(false);
+            setting.gameObject.SetActive(true);
+            theme.gameObject.SetActive(true);
 
-            ScreenManager.Instance.Back();
         }
 
         public override void Initialize()
@@ -48,6 +51,9 @@ namespace dotmob.Sudoku
             newGame.gameObject.SetActive(false);
             pause.gameObject.SetActive(false);
             back.gameObject.SetActive(true);
+            back.gameObject.SetActive(true);
+            setting.gameObject.SetActive(false);
+            theme.gameObject.SetActive(false);
 
             base.Show(back1, immediate);
 

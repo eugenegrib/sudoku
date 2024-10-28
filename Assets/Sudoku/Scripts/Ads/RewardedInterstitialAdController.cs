@@ -1,21 +1,22 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Ads
 {
-    /// <summary>
-    /// Demonstrates how to use Google Mobile Ads rewarded interstitial ads.
-    /// </summary>
     [AddComponentMenu("GoogleMobileAds/Samples/RewardedInterstitialAdController")]
     public class RewardedInterstitialAdController : MonoBehaviour
     {
-        /// <summary>
-        /// UI element activated when an ad is ready to show.
-        /// </summary>
         public GameObject AdLoadedStatus;
+        
+        public List<Image> AdStatusImages;
+        public List<Text> AdStatusText;
+        public List<Button> AdStatusButtons;
 
-        // These ad units are configured to always serve test ads.
+        private const float fadeDuration = 0.3f;
+
 #if UNITY_ANDROID
         private const string _adUnitId = "ca-app-pub-3940256099942544/5354046379";
 #elif UNITY_IPHONE
@@ -24,66 +25,50 @@ namespace Sudoku.Scripts.Ads
         private const string _adUnitId = "unused";
 #endif
 
-        private RewardedInterstitialAd _rewardedInterstitialAd;
+        private RewardedInterstitialAd rewardedInterstitialAd;
 
-        /// <summary>
-        /// Loads the ad.
-        /// </summary>
         public void LoadAd()
         {
-            // Clean up the old ad before loading a new one.
-            if (_rewardedInterstitialAd != null)
+            if (rewardedInterstitialAd != null)
             {
                 DestroyAd();
             }
 
             Debug.Log("Loading rewarded interstitial ad.");
 
-            // Create our request used to load the ad.
             var adRequest = new AdRequest();
-
-            // Send the request to load the ad.
             RewardedInterstitialAd.Load(_adUnitId, adRequest,
                 (RewardedInterstitialAd ad, LoadAdError error) =>
                 {
-                    // If the operation failed with a reason.
                     if (error != null)
                     {
-                        Debug.LogError("Rewarded interstitial ad failed to load an ad with error : "
-                                        + error);
+                        Debug.LogError("Rewarded interstitial ad failed to load an ad with error: " + error);
+                        SetAdStatus(false);
                         return;
                     }
-                    // If the operation failed for unknown reasons.
-                    // This is an unexpexted error, please report this bug if it happens.
+
                     if (ad == null)
                     {
-                        Debug.LogError("Unexpected error: Rewarded interstitial load event fired with null ad and null error.");
+                        Debug.LogError("Unexpected error: Rewarded interstitial load event fired with null ad.");
+                        SetAdStatus(false);
                         return;
                     }
 
-                    // The operation completed successfully.
-                    Debug.Log("Rewarded interstitial ad loaded with response : "
-                        + ad.GetResponseInfo());
-                    _rewardedInterstitialAd = ad;
-
-                    // Register to ad events to extend functionality.
+                    Debug.Log("Rewarded interstitial ad loaded with response: " + ad.GetResponseInfo());
+                    rewardedInterstitialAd = ad;
                     RegisterEventHandlers(ad);
 
-                    // Inform the UI that the ad is ready.
-                    AdLoadedStatus?.SetActive(true);
+                    SetAdStatus(true);
                 });
         }
 
-        /// <summary>
-        /// Shows the ad.
-        /// </summary>
         public void ShowAd()
         {
-            if (_rewardedInterstitialAd != null && _rewardedInterstitialAd.CanShowAd())
+            if (rewardedInterstitialAd != null && rewardedInterstitialAd.CanShowAd())
             {
-                _rewardedInterstitialAd.Show((Reward reward) =>
+                rewardedInterstitialAd.Show((Reward reward) =>
                 {
-                    Debug.Log("Rewarded interstitial ad rewarded : " + reward.Amount);
+                    Debug.Log("Rewarded interstitial ad rewarded: " + reward.Amount);
                 });
             }
             else
@@ -91,72 +76,115 @@ namespace Sudoku.Scripts.Ads
                 Debug.LogError("Rewarded interstitial ad is not ready yet.");
             }
 
-            // Inform the UI that the ad is not ready.
-            AdLoadedStatus?.SetActive(false);
+            SetAdStatus(false);
         }
 
-        /// <summary>
-        /// Destroys the ad.
-        /// </summary>
         public void DestroyAd()
         {
-            if (_rewardedInterstitialAd != null)
+            if (rewardedInterstitialAd != null)
             {
                 Debug.Log("Destroying rewarded interstitial ad.");
-                _rewardedInterstitialAd.Destroy();
-                _rewardedInterstitialAd = null;
+                rewardedInterstitialAd.Destroy();
+                rewardedInterstitialAd = null;
             }
 
-            // Inform the UI that the ad is not ready.
-            AdLoadedStatus?.SetActive(false);
+            SetAdStatus(false);
         }
 
-        /// <summary>
-        /// Logs the ResponseInfo.
-        /// </summary>
-        public void LogResponseInfo()
+        private void SetAdStatus(bool isLoaded)
         {
-            if (_rewardedInterstitialAd != null)
+            if (AdLoadedStatus != null)
             {
-                var responseInfo = _rewardedInterstitialAd.GetResponseInfo();
-                UnityEngine.Debug.Log(responseInfo);
+                AdLoadedStatus.SetActive(isLoaded);
+            }
+
+            var targetAlpha = isLoaded ? 1f : 0.5f;
+            foreach (var image in AdStatusImages)
+            {
+                if (image == null) continue;
+                StartCoroutine(FadeImage(image, targetAlpha));
+            }
+
+            foreach (var text in AdStatusText)
+            {
+                if (text == null) continue;
+                StartCoroutine(FadeText(text, targetAlpha));
+            }
+
+            foreach (var button in AdStatusButtons)
+            {
+                if (button == null) continue;
+                button.interactable = isLoaded;
             }
         }
 
-        protected void RegisterEventHandlers(RewardedInterstitialAd ad)
+        private IEnumerator FadeImage(Image image, float targetAlpha)
         {
-            // Raised when the ad is estimated to have earned money.
+            float startAlpha = image.color.a;
+            float elapsedTime = 0f;
+            Color color = image.color;
+
+            while (elapsedTime < fadeDuration)
+            {
+                color.a = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+                image.color = color;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            color.a = targetAlpha;
+            image.color = color;
+        }
+
+        private IEnumerator FadeText(Text text, float targetAlpha)
+        {
+            float startAlpha = text.color.a;
+            float elapsedTime = 0f;
+            Color color = text.color;
+
+            while (elapsedTime < fadeDuration)
+            {
+                color.a = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+                text.color = color;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            color.a = targetAlpha;
+            text.color = color;
+        }
+
+        private void RegisterEventHandlers(RewardedInterstitialAd ad)
+        {
             ad.OnAdPaid += (AdValue adValue) =>
             {
-                Debug.Log(String.Format("Rewarded interstitial ad paid {0} {1}.",
-                    adValue.Value,
-                    adValue.CurrencyCode));
+                Debug.Log($"Rewarded interstitial ad paid {adValue.Value} {adValue.CurrencyCode}.");
             };
-            // Raised when an impression is recorded for an ad.
+
             ad.OnAdImpressionRecorded += () =>
             {
                 Debug.Log("Rewarded interstitial ad recorded an impression.");
             };
-            // Raised when a click is recorded for an ad.
+
             ad.OnAdClicked += () =>
             {
                 Debug.Log("Rewarded interstitial ad was clicked.");
             };
-            // Raised when an ad opened full screen content.
+
             ad.OnAdFullScreenContentOpened += () =>
             {
                 Debug.Log("Rewarded interstitial ad full screen content opened.");
             };
-            // Raised when the ad closed full screen content.
+
             ad.OnAdFullScreenContentClosed += () =>
             {
                 Debug.Log("Rewarded interstitial ad full screen content closed.");
+                LoadAd();
             };
-            // Raised when the ad failed to open full screen content.
+
             ad.OnAdFullScreenContentFailed += (AdError error) =>
             {
-                Debug.LogError("Rewarded interstitial ad failed to open full screen content" +
-                               " with error : " + error);
+                Debug.LogError("Rewarded interstitial ad failed to open full screen content with error: " + error);
             };
         }
     }

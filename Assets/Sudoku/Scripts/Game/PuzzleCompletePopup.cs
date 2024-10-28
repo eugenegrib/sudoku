@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Sudoku.Framework.Scripts.Popup;
 using Sudoku.Scripts.Game;
 using UnityEngine;
 using UnityEngine.Localization;

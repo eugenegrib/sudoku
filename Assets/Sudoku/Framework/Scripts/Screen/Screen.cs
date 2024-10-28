@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
+﻿using dotmob;
+using UnityEngine;
 
-namespace dotmob
+namespace Sudoku.Framework.Scripts.Screen
 {
 	public class Screen : AdjustRectTransformForSafeArea
 	{

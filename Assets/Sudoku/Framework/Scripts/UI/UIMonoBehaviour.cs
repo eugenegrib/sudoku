@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using dotmob;
 using UnityEngine;
 
-namespace dotmob
+namespace Sudoku.Framework.Scripts.UI
 {
 	public class UIMonoBehaviour : MonoBehaviour
 	{

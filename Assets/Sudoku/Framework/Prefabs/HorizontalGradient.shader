@@ -5,6 +5,7 @@ Shader "UI/HorizontalGradientWithImage"
         _LeftColor ("Left Color", Color) = (1, 1, 1, 1)
         _RightColor ("Right Color", Color) = (0, 0, 0, 1)
         _MainTex ("Source Image", 2D) = "white" {}
+        _Alpha ("Alpha", Range(0, 1)) = 1 // Добавляем альфа-канал
     }
     SubShader
     {
@@ -37,6 +38,7 @@ Shader "UI/HorizontalGradientWithImage"
             fixed4 _RightColor;
             sampler2D _MainTex; // Текстура кнопки
             fixed4 _Color; // Цвет кнопки (если используется)
+            float _Alpha; // Альфа-значение
 
             v2f vert(appdata v)
             {
@@ -55,7 +57,8 @@ Shader "UI/HorizontalGradientWithImage"
                 fixed4 gradientColor = lerp(_LeftColor, _RightColor, i.uv.x);
 
                 // Умножаем цвет текстуры на градиент
-                return texColor * gradientColor;
+                // И учитываем альфа-канал
+                return texColor * gradientColor * _Alpha;
             }
             ENDCG
         }

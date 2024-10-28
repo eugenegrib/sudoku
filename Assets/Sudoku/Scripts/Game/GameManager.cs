@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using dotmob;
 using dotmob.Sudoku;
+using Sudoku.Framework.Scripts.Currency;
 using Sudoku.Framework.Scripts.Popup;
 using Sudoku.Framework.Scripts.Screen;
 using Sudoku.Framework.Scripts.Sound;

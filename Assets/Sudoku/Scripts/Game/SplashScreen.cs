@@ -1,6 +1,7 @@
 
     using UnityEngine;
     using UnityEngine.UI;
+    using Screen = Sudoku.Framework.Scripts.Screen.Screen;
 
     namespace dotmob.Sudoku
     {

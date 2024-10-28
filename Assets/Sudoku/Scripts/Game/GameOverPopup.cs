@@ -1,4 +1,5 @@
 using dotmob;
+using Sudoku.Framework.Scripts.Popup;
 using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Game
