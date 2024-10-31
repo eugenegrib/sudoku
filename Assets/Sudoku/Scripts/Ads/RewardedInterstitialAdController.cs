@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
@@ -24,6 +25,7 @@ namespace Sudoku.Scripts.Ads
 #else
         private const string _adUnitId = "unused";
 #endif
+        public event Action OnAdClosed;
 
         private RewardedInterstitialAd rewardedInterstitialAd;
 
@@ -61,7 +63,13 @@ namespace Sudoku.Scripts.Ads
                     SetAdStatus(true);
                 });
         }
-
+        
+        private void HandleAdClosed()
+        {
+            Debug.Log("Interstitial ad closed.");
+            OnAdClosed?.Invoke(); // Вызываем колбэк
+        }
+        
         public void ShowAd()
         {
             if (rewardedInterstitialAd != null && rewardedInterstitialAd.CanShowAd())
@@ -70,6 +78,9 @@ namespace Sudoku.Scripts.Ads
                 {
                     Debug.Log("Rewarded interstitial ad rewarded: " + reward.Amount);
                 });
+                
+                rewardedInterstitialAd.OnAdFullScreenContentClosed += HandleAdClosed;
+
             }
             else
             {

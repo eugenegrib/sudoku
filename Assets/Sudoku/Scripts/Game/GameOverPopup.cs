@@ -1,46 +1,41 @@
+using System;
 using dotmob;
 using Sudoku.Framework.Scripts.Popup;
+using Sudoku.Scripts.Ads;
+using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Game
 {
     public class GameOverPopup : Popup
     {
+        [FormerlySerializedAs("ContinueButton")]
+        public Button continueButton;
 
-        public Button ContinueButton;
         Button button;
-        
+        public event Action OnAdClosed;
+
+        private void HandleAdClosed()
+        {
+            Debug.Log("Interstitial ad closed.");
+            OnAdClosed?.Invoke(); // Вызываем колбэк
+        }
 
         private void Start()
         {
-            button = ContinueButton.GetComponent<Button>();
+            button = continueButton.GetComponent<Button>();
             button.onClick.AddListener(TaskOnClick);
+         
         }
+        [SerializeField]  private InterstitialAdController interstitialAdController;
 
         private void TaskOnClick()
         {
-            /*// Debug.Log("XEM quang cao de tiep tuc");
-            if (API.IsRewardedVideoAvailable())
-            {
-                button.gameObject.SetActive(true);
-                API.ShowRewardedVideo(CompleteMethod);
-            }
-            else
-            {*/
-                button.gameObject.SetActive(false);
-            //}
-        }
+            Hide(true);
 
-        private void CompleteMethod(bool completed)
-        {
-            if (completed == true)
-            {
-                Hide(true);
-            }
-            else
-            {
-                Hide(false);
-            }
+            interstitialAdController.ShowAd(() => {
+            });
         }
     }
 }

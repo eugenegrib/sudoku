@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sudoku.Framework.Scripts.Currency;
 using Sudoku.Framework.Scripts.Screen;
 using Sudoku.Framework.Scripts.Sound;
+using Sudoku.Scripts.Data;
 using Sudoku.Scripts.Game;
 using Sudoku.Scripts.Theme;
 using UnityEngine;

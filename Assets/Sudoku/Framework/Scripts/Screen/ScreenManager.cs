@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using dotmob;
+using GoogleMobileAds.Sample;
 using Sudoku.Framework.Scripts.Popup;
 using Sudoku.Scripts.Ads;
 using Sudoku.Scripts.Game;
@@ -55,9 +56,7 @@ namespace Sudoku.Framework.Scripts.Screen
 
         #region Unity Methods
 
-        private void Awake()
-        {
-        }
+     
 
         [Obsolete("Obsolete")]
         private void Start()
@@ -84,8 +83,7 @@ namespace Sudoku.Framework.Scripts.Screen
             // Переход после сплэшки на экран меню
             StartCoroutine(ShowAdAndSwitchToGameMenu());
 
-            appOpenAdController = FindObjectOfType<AppOpenAdController>();
-            appOpenAdController.LoadAppOpenAd();
+            
             
             // Найдите компонент InterstitialAdController в сцене
             interstitialAdController = FindObjectOfType<InterstitialAdController>();
@@ -170,7 +168,7 @@ namespace Sudoku.Framework.Scripts.Screen
         #region Private Methods
 
         private AdaptiveBannerSample bannerController;
-        private InterstitialAdController interstitialAdController;
+        [SerializeField]  private InterstitialAdController interstitialAdController;
         private RewardedInterstitialAdController rewardedInterstitialAdController;
         private AppOpenAdController appOpenAdController;
 
@@ -235,13 +233,11 @@ namespace Sudoku.Framework.Scripts.Screen
             // Показ межстраничной рекламы
             if (interstitialAdController != null)
             {
-                interstitialAdController.OnAdClosed += () =>
-                {
+                
+                interstitialAdController.ShowAd(() => {
                     adShown = true; // Установить флаг, если реклама была показана
                     Show(gameMenuScreenId, false, false); // Показать экран меню
-                };
-
-                interstitialAdController.ShowAd();
+                });
 
                 // Ждем 5 секунд или пока реклама не будет показана
                 float elapsedTime = 0f;

@@ -2,7 +2,11 @@ using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
 
 using System.Collections.Generic;
+using GoogleMobileAds.Common;
+using GoogleMobileAds.Sample;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace Sudoku.Scripts.Ads
 {
 
@@ -29,14 +33,30 @@ namespace Sudoku.Scripts.Ads
 
         // Helper class that implements consent using the
         // Google User Messaging Platform (UMP) Unity plugin.
-        [SerializeField, Tooltip("Controller for the Google User Messaging Platform (UMP) Unity plugin.")]
-        private GoogleMobileAdsConsentController _consentController;
+        [FormerlySerializedAs("_consentController")] [SerializeField, Tooltip("Controller for the Google User Messaging Platform (UMP) Unity plugin.")]
+        private GoogleMobileAdsConsentController consentController;
 
+     
+        [SerializeField] private AppOpenAdController appOpenAdController = null;
+        public void OnAppStateChanged(AppState state)
+        {
+            Debug.Log("OnAppStateChanged");
+            if (state == AppState.Foreground)
+            {
+                appOpenAdController.ShowAd();
+            }
+        }
         /// <summary>
         /// Demonstrates how to configure Google Mobile Ads Unity plugin.
         /// </summary>
         private void Start()
         {
+            
+            
+            AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
+
+           
+            
             // On Android, Unity is paused when displaying interstitial or rewarded video.
             // This setting makes iOS behave consistently with Android.
             MobileAds.SetiOSAppPauseOnBackground(true);
@@ -44,7 +64,7 @@ namespace Sudoku.Scripts.Ads
             // When true all events raised by GoogleMobileAds will be raised
             // on the Unity main thread. The default value is false.
             // https://developers.google.com/admob/unity/quick-start#raise_ad_events_on_the_unity_main_thread
-            MobileAds.RaiseAdEventsOnUnityMainThread = true;
+            MobileAds.RaiseAdEventsOnUnityMainThread = false;
 
             // Configure your RequestConfiguration with Child Directed Treatment
             // and the Test Device Ids.
@@ -54,13 +74,15 @@ namespace Sudoku.Scripts.Ads
             });
 
             // If we can request ads, we should initialize the Google Mobile Ads Unity plugin.
-            if (_consentController.CanRequestAds)
+            if (consentController.CanRequestAds)
             {
                 InitializeGoogleMobileAds();
             }
 
             // Ensures that privacy and consent information is up to date.
             InitializeGoogleMobileAdsConsent();
+            AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
+
         }
 
         /// <summary>
@@ -70,7 +92,7 @@ namespace Sudoku.Scripts.Ads
         {
             Debug.Log("Google Mobile Ads gathering consent.");
 
-            _consentController.GatherConsent((string error) =>
+            consentController.GatherConsent((string error) =>
             {
                 if (error != null)
                 {
@@ -83,7 +105,7 @@ namespace Sudoku.Scripts.Ads
                         + ConsentInformation.ConsentStatus);
                 }
 
-                if (_consentController.CanRequestAds)
+                if (consentController.CanRequestAds)
                 {
                     InitializeGoogleMobileAds();
                 }
@@ -106,13 +128,15 @@ namespace Sudoku.Scripts.Ads
             // Initialize the Google Mobile Ads Unity plugin.
             Debug.Log("Google Mobile Ads Initializing.");
             MobileAds.Initialize((InitializationStatus initstatus) =>
-            {
+            {                AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
+
                 if (initstatus == null)
                 {
                     Debug.LogError("Google Mobile Ads initialization failed.");
                     _isInitialized = null;
                     return;
-                }
+                }           
+
 
                 // If you use mediation, you can check the status of each adapter.
                 var adapterStatusMap = initstatus.getAdapterStatusMap();
@@ -128,6 +152,8 @@ namespace Sudoku.Scripts.Ads
 
                 Debug.Log("Google Mobile Ads initialization complete.");
                 _isInitialized = true;
+                AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
+
             });
         }
 
@@ -158,7 +184,7 @@ namespace Sudoku.Scripts.Ads
         /// </remarks>
         public void OpenPrivacyOptions()
         {
-            _consentController.ShowPrivacyOptionsForm((string error) =>
+            consentController.ShowPrivacyOptionsForm((string error) =>
             {
                 if (error != null)
                 {
@@ -171,5 +197,7 @@ namespace Sudoku.Scripts.Ads
                 }
             });
         }
+        
+        
     }
 }

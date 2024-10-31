@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using dotmob;
 using UnityEngine;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Scripts.Data
 {
 	public class PuzzleData
 	{

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Sudoku.Scripts.Theme;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Scripts.Theme
 {
 	public abstract class ThemeBehaviour : MonoBehaviour, IThemeBehaviour
 	{

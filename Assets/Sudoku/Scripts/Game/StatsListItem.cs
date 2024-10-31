@@ -28,7 +28,7 @@ namespace Sudoku.Scripts.Game
 
         public void Setup(PuzzleGroupData puzzleGroup)
         {
-            groupNameText.text = puzzleGroup.displayName.GetLocalizedString();
+            groupNameText.text = puzzleGroup.displayNameLocalized.GetLocalizedString();
             puzzleCompletedText.text = puzzleGroup.PuzzlesCompleted.ToString();
             bestTimeText.text = Utilities.FormatTimer(puzzleGroup.MinTime);
 

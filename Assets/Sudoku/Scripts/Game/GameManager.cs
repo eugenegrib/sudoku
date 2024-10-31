@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using dotmob;
 using dotmob.Sudoku;
 using Sudoku.Framework.Scripts.Currency;
 using Sudoku.Framework.Scripts.Popup;
+using Sudoku.Framework.Scripts.Save;
 using Sudoku.Framework.Scripts.Screen;
 using Sudoku.Framework.Scripts.Sound;
+using Sudoku.Scripts.Data;
 using UnityEngine;
 
 namespace Sudoku.Scripts.Game
 {
     public class GameManager : SingletonComponent<GameManager>, ISaveable
     {
-
         #region Inspector Variables
 
         [Header("Data")] [SerializeField] private List<PuzzleGroupData> puzzleGroups = null;
@@ -86,7 +88,7 @@ namespace Sudoku.Scripts.Game
 
                 if (puzzleGroupData == null) return "";
 
-                return puzzleGroupData.displayName.GetLocalizedString();
+                return puzzleGroupData.displayNameLocalized.GetLocalizedString();
             }
         }
 
@@ -104,6 +106,7 @@ namespace Sudoku.Scripts.Game
 
         public void PauseGame()
         {
+            Debug.Log("GameManger Game paused");
             if (!IsPaused)
             {
                 IsPaused = true;
@@ -114,7 +117,9 @@ namespace Sudoku.Scripts.Game
         }
 
         public void RestartGame()
-        {              
+        {
+            Debug.Log("GameManger Restart Game");
+
             IsPaused = false;
 
             var puzzleGroup = GetPuzzleGroup(ActivePuzzleData.groupId);
@@ -133,11 +138,13 @@ namespace Sudoku.Scripts.Game
 
             ActivePuzzleData.elapsedTime = 0;
             //SoundManager.Instance.PlayAtStart(SoundManager.SoundType.Music);
-            SoundManager.Instance.ResumeMusic(); 
+            SoundManager.Instance.ResumeMusic();
         }
 
         public void ResumeGame()
         {
+            Debug.Log("GameManger Restart Game");
+
             if (IsPaused)
             {
                 IsPaused = false;
@@ -151,7 +158,7 @@ namespace Sudoku.Scripts.Game
 
         protected override void Awake()
         {
-           // API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
+            // API.ShowBanner(BannerPosition.Bottom, BannerType.Adaptive);
 
             base.Awake();
 
@@ -181,18 +188,24 @@ namespace Sudoku.Scripts.Game
 
         public void PlayNewGame(int groupIndex)
         {
-            // Make sure the groupIndex is within the bounds of puzzleGroups
+            // Проверяем, что индекс находится в границах списка
             if (groupIndex >= 0 && groupIndex < puzzleGroups.Count)
             {
-                PlayNewGame(puzzleGroups[groupIndex]);
+                PuzzleGroupData selectedGroup = puzzleGroups[groupIndex];
 
+
+                /*
+                Debug.Log("GM" + selectedGroup.displayName);
+                Debug.Log(String.Format("{puzzleGroupData.displayName}"));
+                Debug.Log($"GM {selectedGroup.displayName}");*/
+                
+                // Убедимся, что `PuzzleGroupData` загружается корректно
+                PlayNewGame(selectedGroup);
                 return;
             }
 
-            Debug.LogErrorFormat(
-                "[GameManager] PlayNewGame(int groupIndex) : The given groupIndex ({0}) is out of bounds for the puzzleGroups of size {1} \"{0}\"",
-                groupIndex, puzzleGroups.Count);
         }
+
 
         public void PlayNewGame(string groupId)
         {
@@ -203,15 +216,15 @@ namespace Sudoku.Scripts.Game
 
                 if (groupId == puzzleGroupData.groupId)
                 {
-                    PlayNewGame(puzzleGroupData);
+                    PlayNewGame(puzzleGroupData);/*
+                    // Проверяем, что нужный уровень сложности загружен
+                    Debug.Log("GM" + puzzleGroupData.displayName);
+                    Debug.Log(String.Format("{puzzleGroupData.displayName}"));
+                    Debug.Log($"GM {puzzleGroupData.displayName}");*/
 
                     return;
                 }
             }
-
-            Debug.LogErrorFormat(
-                "[GameManager] PlayNewGame(string groupId) : Could not find a PuzzleGroupData with the given id \"{0}\"",
-                groupId);
         }
 
         public void ContinueActiveGame()
@@ -246,7 +259,11 @@ namespace Sudoku.Scripts.Game
         {
             var puzzleGroup = GetPuzzleGroup(ActivePuzzleData.groupId);
 
-            Debug.Log("NAME :" + puzzleGroup.displayName);
+            /*
+            // Проверяем, что нужный уровень сложности загружен
+            Debug.Log("GM" + puzzleGroup.displayName);
+            Debug.Log(String.Format("{puzzleGroupData.displayName}"));
+            Debug.Log($"GM {puzzleGroup.displayName}");*/
 
 
             SoundManager.Instance.Play("lose");
@@ -331,12 +348,17 @@ namespace Sudoku.Scripts.Game
         /// </summary>
         private void PlayNewGame(PuzzleGroupData puzzleGroupData)
         {
-            // Get a puzzle that has not yet been played by the user
             PuzzleData puzzleData = puzzleGroupData.GetPuzzle();
 
-            // Play the game using the new puzzle data
+            /*
+            // Проверяем, что нужный уровень сложности загружен
+            Debug.Log("GM" + puzzleGroupData.displayName);
+            Debug.Log(String.Format("{puzzleGroupData.displayName}"));
+            Debug.Log($"GM {puzzleGroupData.displayName}");*/
+
             PlayGame(puzzleData);
         }
+
 
         /// <summary>
         /// Starts the game using the given PuzzleData
@@ -363,7 +385,7 @@ namespace Sudoku.Scripts.Game
             SoundManager.Instance.StartPlayMusic();
         }
 
-       
+
         /// <summary>
         /// Gets the puzzle group with the given id
         /// </summary>

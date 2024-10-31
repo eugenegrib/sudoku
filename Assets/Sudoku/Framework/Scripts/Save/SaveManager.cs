@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using dotmob;
 using UnityEngine;
 
-namespace dotmob
+namespace Sudoku.Framework.Scripts.Save
 {
 	public class SaveManager : SingletonComponent<SaveManager>
 	{
@@ -18,7 +19,7 @@ namespace dotmob
 		/// <summary>
 		/// Path to the save file on the device
 		/// </summary>
-		public string SaveFilePath { get { return Application.persistentDataPath + "/save.json"; } }
+		public static string SaveFilePath => Application.persistentDataPath + "/save.json";
 
 		/// <summary>
 		/// List of registered saveables
@@ -108,12 +109,7 @@ namespace dotmob
 		/// </summary>
 		public void Save()
 		{
-			Dictionary<string, object> saveJson = new Dictionary<string, object>();
-
-			for (int i = 0; i < saveables.Count; i++)
-			{
-				saveJson.Add(saveables[i].SaveId, saveables[i].Save());
-			}
+			var saveJson = saveables.ToDictionary<ISaveable, string, object>(t => t.SaveId, t => t.Save());
 
 			System.IO.File.WriteAllText(SaveFilePath, Utilities.ConvertToJsonString(saveJson));
 		}

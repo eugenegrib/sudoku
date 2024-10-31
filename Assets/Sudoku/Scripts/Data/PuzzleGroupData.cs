@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Sudoku.Scripts.Data;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -8,54 +9,55 @@ namespace dotmob.Sudoku
 	[System.Serializable]
 	public class PuzzleGroupData
 	{
-		#region Inspector Variables
+		#region Переменные для инспектора
 
-		public string			groupId;
-		public LocalizedString displayName;
+		public string groupId;
+		public string displayName;
+		public LocalizedString displayNameLocalized;
 
 		/*
-		public string			displayName;
+		public string displayName;
 		*/
-		public List<TextAsset>	puzzleFiles;
+		public List<TextAsset> puzzleFiles;
 
 		#endregion
 
-		#region Member Variables
+		#region Переменные-члены класса
 
-		private HashSet<int>	playedPuzzles;	// Contains all puzzleFile indices which have been played/started by the user
-		private int				shiftAmount;	// The amount we will "shift" the numbers on the puzzle so it appears to be a differnt puzzle
-
-		#endregion
-
-		#region Properties
-
-		public int		PuzzlesCompleted	{ get; set; }
-		public float	MinTime 			{ get; set; }
-		public float	TotalTime			{ get; set; }
+		private HashSet<int> playedPuzzles; // Содержит индексы всех головоломок, которые были сыграны/начаты пользователем
+		private int shiftAmount; // Сдвиг чисел в головоломке, чтобы она выглядела как другая
 
 		#endregion
 
-		#region Public Methods
+		#region Свойства
+
+		public int PuzzlesCompleted { get; set; }
+		public float MinTime { get; set; }
+		public float TotalTime { get; set; }
+
+		#endregion
+
+		#region Публичные методы
 
 		/// <summary>
-		/// Returns an object that represents this groups save data
+		/// Возвращает объект, представляющий данные сохранения этой группы
 		/// </summary>
-		/// <returns>The save.</returns>
+		/// <returns>Сохраненные данные.</returns>
 		public Dictionary<string, object> Save()
 		{
 			Dictionary<string, object> groupSaveData = new Dictionary<string, object>();
 
-			groupSaveData["played"] 			= new List<int>(playedPuzzles);
-			groupSaveData["shift_amount"]		= shiftAmount;
-			groupSaveData["puzzles_completed"]	= PuzzlesCompleted;
-			groupSaveData["min_time"]			= MinTime;
-			groupSaveData["total_time"]			= TotalTime;
+			groupSaveData["played"] = new List<int>(playedPuzzles);
+			groupSaveData["shift_amount"] = shiftAmount;
+			groupSaveData["puzzles_completed"] = PuzzlesCompleted;
+			groupSaveData["min_time"] = MinTime;
+			groupSaveData["total_time"] = TotalTime;
 
 			return groupSaveData;
 		}
 
 		/// <summary>
-		/// Loads the PuzzleGroupData and sets the save values
+		/// Загружает данные PuzzleGroupData и устанавливает значения из сохранения
 		/// </summary>
 		public void Load(JSONNode groupSaveData = null)
 		{
@@ -63,7 +65,7 @@ namespace dotmob.Sudoku
 
 			if (groupSaveData != null)
 			{
-				// Load the played puzzles
+				// Загрузка сыгранных головоломок
 				JSONArray playedPuzzlesJson = groupSaveData["played"].AsArray;
 
 				for (int i = 0; i < playedPuzzlesJson.Count; i++)
@@ -71,19 +73,19 @@ namespace dotmob.Sudoku
 					playedPuzzles.Add(playedPuzzlesJson[i].AsInt);
 				}
 
-				shiftAmount			= groupSaveData["shift_amount"].AsInt;
-				PuzzlesCompleted	= groupSaveData["puzzles_completed"].AsInt;
-				MinTime				= groupSaveData["min_time"].AsFloat;
-				TotalTime			= groupSaveData["total_time"].AsFloat;
+				shiftAmount = groupSaveData["shift_amount"].AsInt;
+				PuzzlesCompleted = groupSaveData["puzzles_completed"].AsInt;
+				MinTime = groupSaveData["min_time"].AsFloat;
+				TotalTime = groupSaveData["total_time"].AsFloat;
 			}
 		}
 
 		/// <summary>
-		/// Returns a puzzle data for a random puzzle that has not yet been played
+		/// Возвращает данные головоломки для случайной головоломки, которая еще не была сыграна
 		/// </summary>
 		public PuzzleData GetPuzzle()
 		{
-			// Check if the list is empty, if we don't it could lead to infinite recursion
+			// Проверка, пуста ли коллекция, иначе это может привести к бесконечной рекурсии
 			if (puzzleFiles.Count == 0)
 			{
 				return null;
@@ -91,28 +93,28 @@ namespace dotmob.Sudoku
 
 			for (int i = 0; i < puzzleFiles.Count; i++)
 			{
-				// Get a random puzzle index to play next
+				// Получаем случайный индекс головоломки для следующей игры
 				int puzzleIndex = Random.Range(i, puzzleFiles.Count);
 
-				// Check that it has not already been played
+				// Проверяем, что головоломка еще не была сыграна
 				if (!playedPuzzles.Contains(puzzleIndex))
 				{
-					// Add the puzzles index to the set of played puzzles
+					// Добавляем индекс головоломки в список сыгранных
 					playedPuzzles.Add(puzzleIndex);
 
 					return new PuzzleData(puzzleFiles[puzzleIndex], shiftAmount, groupId);
 				}
 			}
 
-			/* If we get here all puzzles have been played (or atleast started) by the user */
+			/* Если мы здесь, значит, все головоломки были сыграны (или хотя бы начаты) пользователем */
 
-			// Increase the shift amount so when a puzzle is replayed by the user they are unlikely to know it is the same puzzle
+			// Увеличиваем сдвиг, чтобы при повторной игре головоломка казалась другой
 			shiftAmount++;
 
-			// Clear the played puzzles so we can use them again
+			// Очищаем список сыгранных головоломок, чтобы можно было использовать их снова
 			playedPuzzles.Clear();
 
-			// Call the method again, this time it will return a puzzle for sure
+			// Снова вызываем метод, теперь он точно вернет головоломку
 			return GetPuzzle();
 		}
 

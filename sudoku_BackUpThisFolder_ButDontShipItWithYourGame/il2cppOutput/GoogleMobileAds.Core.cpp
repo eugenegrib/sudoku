@@ -49,7 +49,6 @@ struct MediationExtras_t390586958F7ED4B158AD5AD18F58A86E9E7B621E;
 struct MemberFilter_tF644F1AE82F611B677CE1964D5A3277DDA21D553;
 struct NativeAdOptions_t961E770C1A3B5C13D152A9393A6ED04CD78365E7;
 struct NativeTemplateTextStyle_t8067A7E0B4D30EF21312BDD70161D375B8A3D6AF;
-struct PreloadConfiguration_t6F0CC48C9DA9CD53B6D7C8E6AADF386734E7C479;
 struct RequestConfiguration_tE715340E972C7F6E659FD3ACE136CDDEAD74CCCB;
 struct Reward_t0F20A888BB23A15D26BEF02E5C367B31ECB87511;
 struct SerializationInfo_t3C47F63E24BEB9FCE2DC6309E027F238DC5C5E37;
@@ -269,10 +268,6 @@ struct AdChoicesPlacement_tE8327291A65D17FA4A1D5757F44193E1E95283DC
 {
 	int32_t ___value__;
 };
-struct AdFormat_t54182B8B1EA66C65BF5597B441E526E6E8E125D6 
-{
-	int32_t ___value__;
-};
 struct AdPosition_tC5663BBEC4D9F57BB911ABB0349BE51F0747D1A3 
 {
 	int32_t ___value__;
@@ -450,13 +445,6 @@ struct NativeTemplateTextStyle_t8067A7E0B4D30EF21312BDD70161D375B8A3D6AF  : publ
 	int32_t ___U3CFontSizeU3Ek__BackingField;
 	int32_t ___U3CStyleU3Ek__BackingField;
 };
-struct PreloadConfiguration_t6F0CC48C9DA9CD53B6D7C8E6AADF386734E7C479  : public RuntimeObject
-{
-	String_t* ___AdUnitId;
-	int32_t ___Format;
-	AdRequest_tB2AC2CD266CFD5D636C917BC2D938BE96E72BF4D* ___Request;
-	int32_t ___BufferSize;
-};
 struct Type_t  : public MemberInfo_t
 {
 	RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B ____impl;
@@ -564,14 +552,6 @@ inline void List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E (List_1_tF470
 	((  void (*) (List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD*, const RuntimeMethod*))List_1__ctor_m0AFBAEA7EC427E32CC9CA267B1930DC5DF67A374_gshared)(__this, method);
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void EventArgs__ctor_mC6F9412D03203ADEF854117542C8EBF61624C8C3 (EventArgs_t37273F03EAC87217701DD431B190FBD84AD7C377* __this, const RuntimeMethod* method) ;
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Winvalid-offsetof"
-#pragma clang diagnostic ignored "-Wunused-variable"
-#endif
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -1362,21 +1342,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t NativeTemplateTextStyle_get_Style_mD1
 	{
 		int32_t L_0 = __this->___U3CStyleU3Ek__BackingField;
 		return L_0;
-	}
-}
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Winvalid-offsetof"
-#pragma clang diagnostic ignored "-Wunused-variable"
-#endif
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PreloadConfiguration__ctor_m3B75A7748826ED1128BE6B8E86E8B688E1C6A340 (PreloadConfiguration_t6F0CC48C9DA9CD53B6D7C8E6AADF386734E7C479* __this, const RuntimeMethod* method) 
-{
-	{
-		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2(__this, NULL);
-		return;
 	}
 }
 #ifdef __clang__

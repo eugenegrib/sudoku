@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using dotmob;
+using Sudoku.Framework.Scripts.Save;
 using UnityEngine;
 
 namespace Sudoku.Framework.Scripts.Sound
@@ -21,8 +22,8 @@ namespace Sudoku.Framework.Scripts.Sound
 
 		public class PlayingSound
 		{
-			public SoundInfo	soundInfo	= null;
-			public AudioSource	audioSource	= null;
+			public SoundInfo	SoundInfo	= null;
+			public AudioSource	AudioSource	= null;
 		}
 
 		#endregion
@@ -133,7 +134,7 @@ namespace Sudoku.Framework.Scripts.Sound
 				if (soundInfo.playAndLoopOnStart)
 				{
 					// Проверяем, воспроизводится ли уже музыка с этим ID
-					bool isAlreadyPlaying = loopingAudioSources.Exists(sound => sound.soundInfo.id == soundInfo.id);
+					bool isAlreadyPlaying = loopingAudioSources.Exists(sound => sound.SoundInfo.id == soundInfo.id);
 
 					if (!isAlreadyPlaying)
 					{
@@ -145,9 +146,9 @@ namespace Sudoku.Framework.Scripts.Sound
 
 		private void Update()
 		{
-			for (int i = 0; i < playingAudioSources.Count; i++)
+			for (var i = 0; i < playingAudioSources.Count; i++)
 			{
-				AudioSource audioSource = playingAudioSources[i].audioSource;
+				var audioSource = playingAudioSources[i].AudioSource;
 
 				// If the Audio Source is no longer playing then return it to the pool so it can be re-used
 				if (!audioSource.isPlaying)
@@ -209,8 +210,8 @@ namespace Sudoku.Framework.Scripts.Sound
 
 			PlayingSound playingSound = new PlayingSound();
 
-			playingSound.soundInfo		= soundInfo;
-			playingSound.audioSource	= audioSource;
+			playingSound.SoundInfo		= soundInfo;
+			playingSound.AudioSource	= audioSource;
 
 			if (loop)
 			{
@@ -301,10 +302,10 @@ namespace Sudoku.Framework.Scripts.Sound
 			{
 				PlayingSound playingSound = playingSounds[i];
 
-				if (id == playingSound.soundInfo.id)
+				if (id == playingSound.SoundInfo.id)
 				{
-					playingSound.audioSource.Stop();
-					Destroy(playingSound.audioSource.gameObject);
+					playingSound.AudioSource.Stop();
+					Destroy(playingSound.AudioSource.gameObject);
 					playingSounds.RemoveAt(i);
 					i--;
 				}
@@ -321,10 +322,10 @@ namespace Sudoku.Framework.Scripts.Sound
 			{
 				PlayingSound playingSound = playingSounds[i];
 
-				if (type == playingSound.soundInfo.type)
+				if (type == playingSound.SoundInfo.type)
 				{
-					playingSound.audioSource.Stop();
-					Destroy(playingSound.audioSource.gameObject);
+					playingSound.AudioSource.Stop();
+					Destroy(playingSound.AudioSource.gameObject);
 					playingSounds.RemoveAt(i);
 					i--;
 				}

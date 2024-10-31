@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Sudoku.Framework.Scripts.Save;
 using UnityEngine;
 using UnityEditor;
 
@@ -32,18 +33,18 @@ namespace dotmob
 		[UnityEditor.MenuItem("Dotmob/Delete Save Data", priority = 0)]
 		public static void DeleteSaveData()
 		{
-			if (!System.IO.File.Exists(SaveManager.Instance.SaveFilePath))
+			if (!System.IO.File.Exists(SaveManager.SaveFilePath))
 			{
 				UnityEditor.EditorUtility.DisplayDialog("Delete Save File", "There is no save file.", "Ok");
 
 				return;
 			}
 
-			bool delete = UnityEditor.EditorUtility.DisplayDialog("Delete Save File", "Delete the save file located at " + SaveManager.Instance.SaveFilePath, "Yes", "No");
+			bool delete = UnityEditor.EditorUtility.DisplayDialog("Delete Save File", "Delete the save file located at " + SaveManager.SaveFilePath, "Yes", "No");
 
 			if (delete)
 			{
-				System.IO.File.Delete(SaveManager.Instance.SaveFilePath);
+				System.IO.File.Delete(SaveManager.SaveFilePath);
 
 				Debug.Log("Save file deleted");
 			}
@@ -52,14 +53,14 @@ namespace dotmob
 		[UnityEditor.MenuItem("Dotmob/Print Save Data To Console", priority = 1)] 
 		public static void PrintSaveFileToConsole()
 		{
-			if (!System.IO.File.Exists(SaveManager.Instance.SaveFilePath))
+			if (!System.IO.File.Exists(SaveManager.SaveFilePath))
 			{
 				UnityEditor.EditorUtility.DisplayDialog("Delete Save File", "There is no save file.", "Ok");
 
 				return;
 			}
 
-			string contents = System.IO.File.ReadAllText(SaveManager.Instance.SaveFilePath);
+			string contents = System.IO.File.ReadAllText(SaveManager.SaveFilePath);
 
 			Debug.Log(contents);
 		}
