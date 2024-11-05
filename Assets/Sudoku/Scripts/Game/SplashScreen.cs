@@ -1,9 +1,8 @@
+using UnityEngine;
+using UnityEngine.UI;
+using Screen = Sudoku.Framework.Scripts.Screen.Screen;
 
-    using UnityEngine;
-    using UnityEngine.UI;
-    using Screen = Sudoku.Framework.Scripts.Screen.Screen;
-
-    namespace dotmob.Sudoku
+    namespace Sudoku.Scripts.Game
     {
         public class SplashScreen : Screen
         {
@@ -12,7 +11,6 @@
             public override void Show(bool back, bool immediate)
             {
                 base.Show(back, immediate);
-                splashMessage.text = "Welcome to the Game!"; // или любой другой текст
             }
 
             private void Update()

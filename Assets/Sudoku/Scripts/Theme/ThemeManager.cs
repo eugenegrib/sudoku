@@ -12,18 +12,20 @@ namespace Sudoku.Scripts.Theme
         [System.Serializable]
         public class Theme
         {
-            public string name = "";
-            public bool defaultTheme = false;
-            public List<Color> themeColors = null;
+            public string name;
+            public bool defaultTheme;
+            public List<Sprite> themeSprite; 
+            public List<Color> themeColors;
         }
 
         #endregion
 
         #region Inspector Variables
-        [SerializeField] private List<string> itemIds = new List<string> { "numberButtonColor", /* другие идентификаторы */ };
-
+        
+        [SerializeField] private List<string> itemIds = new List<string>();
+        [SerializeField] private List<string> spriteIds = new List<string>();
+        [SerializeField] private List<Theme> themes = new List<Theme>();
         [SerializeField] private bool themesEnabled = false;
-        [SerializeField] private List<Theme> themes = null;
 
         #endregion
 
@@ -36,12 +38,10 @@ namespace Sudoku.Scripts.Theme
         #region Properties
 
         public string SaveId { get { return "theme_manager"; } }
-
         public bool Enabled { get { return themesEnabled; } }
         public List<Theme> Themes { get { return themes; } }
         public int ActiveThemeIndex { get; private set; }
         public Theme ActiveTheme { get { return themes[ActiveThemeIndex]; } }
-
         public System.Action OnThemeChanged { get; set; }
 
         #endregion
@@ -51,14 +51,12 @@ namespace Sudoku.Scripts.Theme
         protected override void Awake()
         {
             base.Awake();
-
             SaveManager.Instance.Register(this);
-
             themeBehaviours = new List<IThemeBehaviour>();
 
             if (!LoadSave())
             {
-                // Find the default theme and set it as the active theme
+                // Найти и установить тему по умолчанию
                 for (int i = 0; i < themes.Count; i++)
                 {
                     if (themes[i].defaultTheme)
@@ -74,22 +72,15 @@ namespace Sudoku.Scripts.Theme
 
         #region Public Methods
 
-        /// <summary>
-        /// Registers a theme behaviour to receive notifications when the theme changes
-        /// </summary>
         public void Register(IThemeBehaviour themeBehaviour)
         {
             if (!themeBehaviours.Contains(themeBehaviour))
             {
                 themeBehaviours.Add(themeBehaviour);
-                // Установим сразу текущую тему для элемента при его добавлении
                 themeBehaviour.NotifyThemeChanged();
             }
         }
 
-        /// <summary>
-        /// Unregister a theme behaviour
-        /// </summary>
         public void Unregister(IThemeBehaviour themeBehaviour)
         {
             if (themeBehaviours.Contains(themeBehaviour))
@@ -98,51 +89,31 @@ namespace Sudoku.Scripts.Theme
             }
         }
 
-        /// <summary>
-        /// Sets the given theme as the active theme
-        /// </summary>
         public void SetActiveTheme(Theme theme)
         {
             SetActiveTheme(themes.IndexOf(theme));
         }
 
-        /// <summary>
-        /// Sets the active theme to the given index
-        /// </summary>
         public void SetActiveTheme(int themeIndex)
         {
-            if (ActiveThemeIndex == themeIndex)
-            {
-                return;
-            }
+            if (ActiveThemeIndex == themeIndex) return;
 
             ActiveThemeIndex = themeIndex;
 
-            // Обновляем все элементы, когда тема меняется
-            for (int i = 0; i < themeBehaviours.Count; i++)
+            foreach (var behaviour in themeBehaviours)
             {
-                themeBehaviours[i].NotifyThemeChanged();
+                behaviour.NotifyThemeChanged();
             }
 
             OnThemeChanged?.Invoke();
         }
-        
-        /// <summary>
-        /// Toggles between the two available themes
-        /// </summary>
+
         public void ToggleTheme()
         {
-            // Предполагается, что у вас всего две темы: 0 и 1
             int newThemeIndex = (ActiveThemeIndex == 0) ? 1 : 0;
-    
             SetActiveTheme(newThemeIndex);
         }
 
-        
-
-        /// <summary>
-        /// Gets the theme item with the given id in the active theme
-        /// </summary>
         public bool GetItemColor(string itemId, out Color color)
         {
             for (int i = 0; i < itemIds.Count; i++)
@@ -157,6 +128,25 @@ namespace Sudoku.Scripts.Theme
             color = Color.white;
             return false;
         }
+        public Sprite defaultSprite; // Убедитесь, что этот спрайт задан в инспекторе или инициализирован
+
+        // Новый метод для получения спрайта по идентификатору
+        public bool GetItemSprite(string itemId, out Sprite sprite)
+        {
+
+            for (int i = 0; i < spriteIds.Count; i++)
+            {
+                if (itemId == spriteIds[i])
+                {
+                    sprite = ActiveTheme.themeSprite[i];
+                    return true;
+                }
+            }
+
+            sprite = defaultSprite;
+            return false;
+        }
+
 
         #endregion
 
@@ -164,9 +154,10 @@ namespace Sudoku.Scripts.Theme
 
         public Dictionary<string, object> Save()
         {
-            Dictionary<string, object> json = new Dictionary<string, object>();
-
-            json["active_theme_index"] = ActiveThemeIndex;
+            Dictionary<string, object> json = new Dictionary<string, object>
+            {
+                ["active_theme_index"] = ActiveThemeIndex
+            };
 
             return json;
         }

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using dotmob;
 using Sudoku.Framework.Scripts.Popup;
-using Sudoku.Scripts.Game;
+using Sudoku.Framework.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UI;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Scripts.Game
 {
 	public class PuzzleCompletePopup : Popup
 	{
@@ -28,10 +27,10 @@ namespace dotmob.Sudoku
 		{
 			base.OnShowing(inData);
 
-			LocalizedString	groupName	= (LocalizedString)inData[0];
-			float	puzzleTime	= (float)inData[1];
-			float	bestTime	= (float)inData[2];
-			bool	newBest		= (bool)inData[3];
+			var	groupName	= (LocalizedString)inData[0];
+			var	puzzleTime	= (float)inData[1];
+			var	bestTime	= (float)inData[2];
+			var	newBest		= (bool)inData[3];
 
 			difficultyNameText.text	= groupName.GetLocalizedString();
 			puzzleTimeText.text		= Utilities.FormatTimer(puzzleTime);

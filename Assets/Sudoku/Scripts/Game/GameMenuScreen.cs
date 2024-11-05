@@ -9,6 +9,8 @@ namespace Sudoku.Scripts.Game
 {
     public class GameMenuScreen : Screen_Screen
     {
+        [SerializeField] private Button newGameButtonOnly;  // Кнопка "Новая игра"
+
         [SerializeField] private Button continueButton; // Кнопка "Продолжить игру"
         [SerializeField] private Button newGameButton;  // Кнопка "Новая игра"
         [SerializeField] private Text gameMenuMessage;  // Текстовое сообщение на экране меню
@@ -18,11 +20,21 @@ namespace Sudoku.Scripts.Game
             // Привязка действий к кнопкам
             continueButton.onClick.AddListener(OnContinueButtonClick);
             newGameButton.onClick.AddListener(OnNewGameButtonClick);
+            newGameButtonOnly.onClick.AddListener(OnNewGameButtonClick);
 
             // Проверяем, есть ли сохраненная игра, чтобы показать или скрыть кнопку продолжения
             if (GameManager.Instance.ActivePuzzleData == null)
             {
                 continueButton.gameObject.SetActive(false); // Скрываем кнопку "Продолжить", если нет сохраненной игры
+                newGameButton.gameObject.SetActive(false); // Скрываем кнопку "Продолжить", если нет сохраненной игры
+                newGameButtonOnly.gameObject.SetActive(true); // Скрываем кнопку "Продолжить", если нет сохраненной игры
+            }
+            else
+            {
+                continueButton.gameObject.SetActive(true); // Скрываем кнопку "Продолжить", если нет сохраненной игры
+                newGameButton.gameObject.SetActive(true); // Скрываем кнопку "Продолжить", если нет сохраненной игры
+                newGameButtonOnly.gameObject.SetActive(false); // Скрываем кнопку "Продолжить", если нет сохраненной игры
+
             }
         }
 

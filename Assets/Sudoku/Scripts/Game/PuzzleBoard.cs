@@ -40,6 +40,9 @@ namespace dotmob.Sudoku
 		[SerializeField] private Image				noteOnOffBkgImage			= null;
 		[SerializeField] private Color				noteOnColor					= Color.white;
 		[SerializeField] private Color				noteOffColor				= Color.white;
+		
+		[SerializeField] private Color				noteOnTextColor					= Color.white;
+		[SerializeField] private Color				noteOffTextColor				= Color.white;
 		//List<int> ListMistake = new List<int>(3);
 		//int check = 0;
 		#endregion
@@ -219,20 +222,56 @@ namespace dotmob.Sudoku
 			// Reset the cell so it displays the correct numbers
 			ResetCell(selectedCellRow, selectedCellCol);
 		}
+		[SerializeField] private GameObject targetObject; // Сериализуемый объект
+		private CanvasGroup canvasGroup;
+		private bool isFaded = false;
+		
+		[SerializeField] private float fadeDuration = 0.3f; // Длительность анимации
+
 
 		/// <summary>
-		/// Toggles setting notes on/off
+		/// Анимированно переключает альфа-канал
 		/// </summary>
 		public void ToggleNotes()
 		{
-			isNotesOn = !isNotesOn;
+			float targetAlpha = isFaded ? 1.0f : 0.6f;
+			StopAllCoroutines(); // Останавливаем предыдущие анимации, если они есть
+			StartCoroutine(FadeAlpha(targetAlpha));
 
-			noteOnOffText.text		= isNotesOn ? "ON" : "OFF";
-			noteOnOffBkgImage.color	= isNotesOn ? noteOnColor : noteOffColor;
-
-			SoundManager.Instance.Play("note");
+			// Обновляем текст
+			isFaded = !isFaded;
+			noteOnOffText.text = isFaded ? "OFF" : "ON";
+			noteOnOffBkgImage.color = !isFaded ? noteOnColor : noteOffColor;
+			noteOnOffText.color = !isFaded ? noteOnTextColor : noteOffTextColor;
 		}
 
+		private IEnumerator FadeAlpha(float targetAlpha)
+		{
+			float startAlpha = canvasGroup.alpha;
+			float time = 0;
+
+			while (time < fadeDuration)
+			{
+				canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
+				time += Time.deltaTime;
+				yield return null;
+			}
+
+			// Устанавливаем целевое значение в конце анимации
+			canvasGroup.alpha = targetAlpha;
+		}
+		
+		private void Awake()
+		{
+			// Добавляем или получаем CanvasGroup для управления прозрачностью
+			canvasGroup = targetObject.GetComponent<CanvasGroup>();
+			if (canvasGroup == null)
+			{
+				canvasGroup = targetObject.AddComponent<CanvasGroup>();
+			}
+		}
+		
+		
 		/// <summary>
 		/// Undos the last move
 		/// </summary>
@@ -326,6 +365,10 @@ namespace dotmob.Sudoku
 
 		#endregion
 
+		
+		
+		
+		
 		#region Private Methods
 
 		/// <summary>

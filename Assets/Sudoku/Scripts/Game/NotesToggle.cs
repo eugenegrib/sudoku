@@ -11,6 +11,7 @@ namespace Sudoku.Framework.Scripts.UI
 
         [SerializeField] private Image notesOnImage = null;
         [SerializeField] private Image notesOffImage = null;
+        [SerializeField] private Image notesOffImage2 = null;
 
         #endregion
 

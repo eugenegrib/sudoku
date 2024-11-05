@@ -7,6 +7,7 @@ using Sudoku.Framework.Scripts.Popup;
 using Sudoku.Framework.Scripts.Save;
 using Sudoku.Framework.Scripts.Screen;
 using Sudoku.Framework.Scripts.Sound;
+using Sudoku.Framework.Scripts.Utilities;
 using Sudoku.Scripts.Data;
 using UnityEngine;
 
@@ -295,8 +296,8 @@ namespace Sudoku.Scripts.Game
         public void ActivePuzzleCompleted()
         {
             // Get the PuzzleGroupData for the puzzle
-            PuzzleGroupData puzzleGroup = GetPuzzleGroup(ActivePuzzleData.groupId);
-            float elapsedTime = ActivePuzzleData.elapsedTime;
+            var puzzleGroup = GetPuzzleGroup(ActivePuzzleData.groupId);
+            var elapsedTime = ActivePuzzleData.elapsedTime;
 
             // Set the puzzle data to null now so the game can't be continued
             ActivePuzzleData = null;
@@ -304,7 +305,7 @@ namespace Sudoku.Scripts.Game
             puzzleGroup.PuzzlesCompleted += 1;
             puzzleGroup.TotalTime += elapsedTime;
 
-            bool newBest = false;
+            var newBest = false;
 
             if (puzzleGroup.MinTime == 0 || elapsedTime < puzzleGroup.MinTime)
             {
@@ -317,7 +318,7 @@ namespace Sudoku.Scripts.Game
 
             object[] popupData =
             {
-                puzzleGroup.displayName,
+                puzzleGroup.displayNameLocalized,
                 elapsedTime,
                 puzzleGroup.MinTime,
                 newBest

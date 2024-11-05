@@ -22,9 +22,9 @@ namespace Sudoku.Scripts.Game
 
         #endregion
 
-        [SerializeField] private GameObject newGame; // Верхняя панель
         [SerializeField] private GameObject pause; // Верхняя панель
-        [SerializeField] private GameObject back; // Верхняя панель
+        [SerializeField] private GameObject backOnGameScreen; // Верхняя панель
+        [SerializeField] private GameObject backOnStatsScreen; // Верхняя панель
         [SerializeField] private GameObject setting; // Верхняя панель
         [SerializeField] private GameObject theme; // Верхняя панель
 
@@ -32,9 +32,9 @@ namespace Sudoku.Scripts.Game
 
         public void Back()
         {
-            newGame.gameObject.SetActive(true);
             pause.gameObject.SetActive(true);
-            back.gameObject.SetActive(false);
+            backOnStatsScreen.gameObject.SetActive(false);
+            backOnGameScreen.gameObject.SetActive(true);
             setting.gameObject.SetActive(true);
             theme.gameObject.SetActive(true);
 
@@ -48,10 +48,9 @@ namespace Sudoku.Scripts.Game
 
         public override void Show(bool back1, bool immediate)
         {         
-            newGame.gameObject.SetActive(false);
             pause.gameObject.SetActive(false);
-            back.gameObject.SetActive(true);
-            back.gameObject.SetActive(true);
+            backOnStatsScreen.gameObject.SetActive(true);
+            backOnGameScreen.gameObject.SetActive(false);
             setting.gameObject.SetActive(false);
             theme.gameObject.SetActive(false);
 

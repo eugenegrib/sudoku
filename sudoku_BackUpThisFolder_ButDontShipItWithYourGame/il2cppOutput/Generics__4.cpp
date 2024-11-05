@@ -687,7 +687,7 @@ struct LowLevelDictionary_2_t10472B425309CC8D325AF29FC88EAA9D01ABEB47;
 struct LowLevelListWithIList_1_t80E30B23146FD62D1FB6A639EA1EBAD199B029D9;
 struct LowLevelList_1_tFA10A51C575F28B96FF2E2E7FB3740E48546A1E0;
 struct ManagedObjectStore_1_t3396C8673A0AA58902F2D4CF4AB1DE5FF82EAFA2;
-struct MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB;
+struct MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA;
 struct MemoryManager_1_tED55276A18D77758B15A7A09B9C0D4DB79480487;
 struct MemoryPool_1_t617DE82C7C1DB579AD2FE8D56C17AD563245AC14;
 struct MethodCall_2_t6F0B468D208A254B1132895278B24899F2A0AB91;
@@ -3153,7 +3153,7 @@ struct LocalizedTable_2_tD3D6B4441CC5410C4E32658338E95B64E1F482B5  : public Runt
 	Action_1_t55C64C85A9D0051A87CCECD2C9B66D12616ECC38* ___m_SelectedLocaleChanged;
 	AsyncOperationHandle_1_tDD1D892D87C7A0C3189DD56DDB997AB1A2089A74 ___U3CCurrentLoadingOperationHandleU3Ek__BackingField;
 };
-struct MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB  : public MulticastDelegate_t
+struct MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA  : public MulticastDelegate_t
 {
 };
 struct MethodCall_2_t6F0B468D208A254B1132895278B24899F2A0AB91  : public MulticastDelegate_t
@@ -15340,55 +15340,55 @@ IL_0166:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_Multicast(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_Multicast(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	il2cpp_array_size_t length = __this->___delegates->max_length;
 	Delegate_t** delegatesToInvoke = reinterpret_cast<Delegate_t**>(__this->___delegates->GetAddressAtUnchecked(0));
 	for (il2cpp_array_size_t i = 0; i < length; i++)
 	{
-		MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* currentDelegate = reinterpret_cast<MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB*>(delegatesToInvoke[i]);
+		MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* currentDelegate = reinterpret_cast<MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA*>(delegatesToInvoke[i]);
 		typedef void (*FunctionPointerType) (RuntimeObject*, Il2CppFullySharedGenericAny, Il2CppFullySharedGenericAny*, const RuntimeMethod*);
 		((FunctionPointerType)currentDelegate->___invoke_impl)((Il2CppObject*)currentDelegate->___method_code, ___0_arg, il2cppRetVal, reinterpret_cast<RuntimeMethod*>(currentDelegate->___method));
 	}
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenStaticInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenStaticInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	InvokerActionInvoker2< Il2CppFullySharedGenericAny, Il2CppFullySharedGenericAny* >::Invoke((Il2CppMethodPointer)__this->___method_ptr, method, NULL, ___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_ClosedStaticInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_ClosedStaticInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	InvokerActionInvoker3< RuntimeObject*, Il2CppFullySharedGenericAny, Il2CppFullySharedGenericAny* >::Invoke((Il2CppMethodPointer)__this->___method_ptr, method, NULL, __this->___m_target, ___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_ClosedInstInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_ClosedInstInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	InvokerActionInvoker2< Il2CppFullySharedGenericAny, Il2CppFullySharedGenericAny* >::Invoke((Il2CppMethodPointer)__this->___method_ptr, method, __this->___m_target, ___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenInstInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenInstInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	NullCheck(___0_arg);
 	InvokerActionInvoker1< Il2CppFullySharedGenericAny* >::Invoke((Il2CppMethodPointer)__this->___method_ptr, method, ___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenVirtualInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenVirtualInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	NullCheck(___0_arg);
 	VirtualActionInvoker1Invoker< Il2CppFullySharedGenericAny* >::Invoke(il2cpp_codegen_method_get_slot(method), (RuntimeObject*)___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenInterfaceInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenInterfaceInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	NullCheck(___0_arg);
 	InterfaceActionInvoker1Invoker< Il2CppFullySharedGenericAny* >::Invoke(il2cpp_codegen_method_get_slot(method), il2cpp_codegen_method_get_declaring_type(method), (RuntimeObject*)___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenGenericVirtualInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenGenericVirtualInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	NullCheck(___0_arg);
 	GenericVirtualActionInvoker1Invoker< Il2CppFullySharedGenericAny* >::Invoke(method, (RuntimeObject*)___0_arg, il2cppRetVal);
 }
-void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenGenericInterfaceInvoker(MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
+void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenGenericInterfaceInvoker(MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method)
 {
 	NullCheck(___0_arg);
 	GenericInterfaceActionInvoker1Invoker< Il2CppFullySharedGenericAny* >::Invoke(method, (RuntimeObject*)___0_arg, il2cppRetVal);
 }
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2__ctor_mD6283605E9BBD44C39BCE0F696BE5694E8132DB4_gshared (MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, RuntimeObject* ___0_object, intptr_t ___1_method, const RuntimeMethod* method) 
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2__ctor_m6C9BF7AC714284658068DE997EC0727AF70580B3_gshared (MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, RuntimeObject* ___0_object, intptr_t ___1_method, const RuntimeMethod* method) 
 {
 	__this->___method_ptr = (intptr_t)il2cpp_codegen_get_method_pointer((RuntimeMethod*)___1_method);
 	__this->___method = ___1_method;
@@ -15400,9 +15400,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2__ctor_mD6283605E9BBD44C39BCE0F
 	{
 		bool isOpen = parameterCount == 1;
 		if (isOpen)
-			__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenStaticInvoker;
+			__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenStaticInvoker;
 		else
-			__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_ClosedStaticInvoker;
+			__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_ClosedStaticInvoker;
 	}
 	else
 	{
@@ -15413,42 +15413,42 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2__ctor_mD6283605E9BBD44C39BCE0F
 			{
 				if (il2cpp_codegen_method_is_generic_instance_method((RuntimeMethod*)___1_method))
 					if (il2cpp_codegen_method_is_interface_method((RuntimeMethod*)___1_method))
-						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenGenericInterfaceInvoker;
+						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenGenericInterfaceInvoker;
 					else
-						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenGenericVirtualInvoker;
+						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenGenericVirtualInvoker;
 				else
 					if (il2cpp_codegen_method_is_interface_method((RuntimeMethod*)___1_method))
-						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenInterfaceInvoker;
+						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenInterfaceInvoker;
 					else
-						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenVirtualInvoker;
+						__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenVirtualInvoker;
 			}
 			else
 			{
-				__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_OpenInstInvoker;
+				__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_OpenInstInvoker;
 			}
 		}
 		else
 		{
 			if (___0_object == NULL)
 				il2cpp_codegen_raise_exception(il2cpp_codegen_get_argument_exception(NULL, "Delegate to an instance method cannot have null 'this'."), NULL);
-			__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_ClosedInstInvoker;
+			__this->___invoke_impl = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_ClosedInstInvoker;
 		}
 	}
-	__this->___extra_arg = (intptr_t)&MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_Multicast;
+	__this->___extra_arg = (intptr_t)&MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_Multicast;
 }
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2_Invoke_mD83F6426279E29ED2E4F691BD34376AD1AE450FF_gshared (MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2_Invoke_mE867710FA68CDCB66F343719C06E14DA9772D622_gshared (MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	typedef void (*FunctionPointerType) (RuntimeObject*, Il2CppFullySharedGenericAny, Il2CppFullySharedGenericAny*, const RuntimeMethod*);
 	((FunctionPointerType)__this->___invoke_impl)((Il2CppObject*)__this->___method_code, ___0_arg, il2cppRetVal, reinterpret_cast<RuntimeMethod*>(__this->___method));
 }
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* MapFunc_2_BeginInvoke_mE88DA8966621C09F7F948B27A7548D91571077D5_gshared (MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, Il2CppFullySharedGenericAny ___0_arg, AsyncCallback_t7FEF460CBDCFB9C5FA2EF776984778B9A4145F4C* ___1_callback, RuntimeObject* ___2_object, const RuntimeMethod* method) 
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* MapFunc_2_BeginInvoke_mE76DD4AC1D6D5600A60F6935091613422B8024C1_gshared (MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, Il2CppFullySharedGenericAny ___0_arg, AsyncCallback_t7FEF460CBDCFB9C5FA2EF776984778B9A4145F4C* ___1_callback, RuntimeObject* ___2_object, const RuntimeMethod* method) 
 {
 	void *__d_args[2] = {0};
 	RuntimeClass* ___0_arg_klass = il2cpp_codegen_class_from_type(il2cpp_codegen_method_parameter_type((MethodInfo*)__this->___method, 0));
 	__d_args[0] = (il2cpp_codegen_class_is_value_type(___0_arg_klass) ? Box(___0_arg_klass, ___0_arg) : (void*)___0_arg);
 	return (RuntimeObject*)il2cpp_codegen_delegate_begin_invoke((RuntimeDelegate*)__this, __d_args, (RuntimeDelegate*)___1_callback, (RuntimeObject*)___2_object);
 }
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2_EndInvoke_m97CFBFE8847A1D0846112D623C6AE7ECAC0CDDB3_gshared (MapFunc_2_t4318C339FB4AEEF165BC57676F62D065D81F4CAB* __this, RuntimeObject* ___0_result, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MapFunc_2_EndInvoke_m3C49B7D9295D1462AA487BB7C7EF7E1B6053BA32_gshared (MapFunc_2_t002C80B7BAACCBBD98D8965AA3CB32B159DB70CA* __this, RuntimeObject* ___0_result, Il2CppFullySharedGenericAny* il2cppRetVal, const RuntimeMethod* method) 
 {
 	RuntimeObject *__result = il2cpp_codegen_delegate_end_invoke((Il2CppAsyncResult*) ___0_result, 0);
 	RuntimeClass* returnType = il2cpp_codegen_class_from_type(il2cpp_codegen_method_return_type((MethodInfo*)__this->___method));

@@ -4971,5 +4971,5 @@ const Il2CppGenericMethodFunctionsDefinitions g_Il2CppGenericMethodFunctions[496
 { 14693, 4960, 1049, -1},
 { 14694, 4961, 2200, -1},
 { 14695, 4962, 2815, -1},
-{ 22185, 0, -1, -1},
+{ 22183, 0, -1, -1},
 };

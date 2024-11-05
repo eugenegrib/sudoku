@@ -2,59 +2,66 @@
 
 namespace Sudoku.Scripts.Theme
 {
-	public abstract class ThemeBehaviour : MonoBehaviour, IThemeBehaviour
-	{
-		#region Inspector Variables
+    public abstract class ThemeBehaviour : MonoBehaviour, IThemeBehaviour
+    {
+        #region Inspector Variables
 
-		[SerializeField] private string id = "";
+        [SerializeField] private string colorId = ""; // id для цвета
+        [SerializeField] private string spriteId = ""; // id для спрайта
 
-		#endregion
+        #endregion
 
-		#region Abstract Methods
+        #region Abstract Methods
 
-		protected abstract void	SetColor(Color color);
+        protected abstract void SetColor(Color color); // Метод для смены цвета
+        protected abstract void SetImage(Sprite sprite); // Метод для смены изображения
 
-		#endregion
+        #endregion
 
-		#region Unity Methods
+        #region Unity Methods
 
-		private void Start()
-		{
-			if (ThemeManager.Exists() && ThemeManager.Instance.Enabled)
-			{
-				ThemeManager.Instance.Register(this);
+        private void Start()
+        {
+            if (ThemeManager.Exists() && ThemeManager.Instance.Enabled)
+            {
+                ThemeManager.Instance.Register(this);
+                UpdateGraphics();
+            }
+        }
 
-				SetColor();
-			}
-		}
+        private void UpdateGraphics()
+        {
+            // Устанавливаем цвет
+            if (ThemeManager.Instance.GetItemColor(colorId, out Color color))
+            {
+                SetColor(color);
+            }
+            else
+            {
+                Debug.LogErrorFormat("[ThemeBehaviour] Could not find theme color id \"{0}\", gameObject: {1}", colorId, gameObject.name);
+            }
 
-		#endregion
+            // Устанавливаем изображение
+            if (ThemeManager.Instance.GetItemSprite(spriteId, out Sprite sprite))
+            {
+                SetImage(sprite);
+            }
+            else
+            {
+                Debug.LogErrorFormat("[ThemeBehaviour] Could not find theme sprite id \"{0}\", gameObject: {1}", spriteId, gameObject.name);
+                // Здесь вы можете добавить любое другое поведение, например, установить стандартный спрайт
+            }
+        }
 
-		#region Public Methods
+        #endregion
 
-		public void NotifyThemeChanged()
-		{
-			SetColor();
-		}
+        #region Public Methods
 
-		#endregion
+        public void NotifyThemeChanged()
+        {
+            UpdateGraphics();
+        }
 
-		#region Private Methods
-
-		private void SetColor()
-		{
-			Color color;
-
-			if (ThemeManager.Instance.GetItemColor(id, out color))
-			{
-				SetColor(color);
-			}
-			else
-			{
-				Debug.LogErrorFormat("[ThemeBehaviour] Could not find theme id \"{0}\", gameObject: {1}", id, gameObject.name);
-			}
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

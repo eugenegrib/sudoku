@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Sudoku.Scripts.Theme;
-using UnityEngine;
+﻿using Sudoku.Scripts.Theme;
 using UnityEditor;
+using UnityEngine;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Editor
 {
 	[CustomEditor(typeof(ThemeManager))]
-	public class ThemeManagerEditor : Editor
+	public class ThemeManagerEditor : UnityEditor.Editor
 	{
 		#region Member Variables
 
@@ -55,6 +53,8 @@ namespace dotmob.Sudoku
 
 			DrawThemeIds();
 
+			DrawSpriteIds(); // Новый метод для отображения spriteIds
+
 			DrawThemes();
 
 			EditorGUILayout.Space();
@@ -63,11 +63,11 @@ namespace dotmob.Sudoku
 
 			serializedObject.ApplyModifiedProperties();
 		}
-
 		#endregion
 
 		#region Private Methods
 
+		
 		private void DrawThemeIds()
 		{
 			SerializedProperty itemIdsProp = serializedObject.FindProperty("itemIds");
@@ -108,6 +108,55 @@ namespace dotmob.Sudoku
 			EndBox();
 		}
 
+		// Новый метод для отображения списка spriteIds в редакторе
+		private void DrawSpriteIds()
+		{
+			SerializedProperty spriteIdsProp = serializedObject.FindProperty("spriteIds");
+
+			if (spriteIdsProp == null)
+			{
+				Debug.LogWarning("spriteIds property not found. Ensure it is defined and serialized in the ThemeManager script.");
+				return;
+			}
+
+			if (BeginBox(spriteIdsProp))
+			{
+				for (int i = 0; i < spriteIdsProp.arraySize; i++)
+				{
+					SerializedProperty spriteIdProp = spriteIdsProp.GetArrayElementAtIndex(i);
+
+					EditorGUILayout.BeginHorizontal();
+
+					GUILayout.Space(16f);
+
+					spriteIdProp.stringValue = EditorGUILayout.TextField(spriteIdProp.stringValue);
+
+					bool removed = GUILayout.Button("Remove", GUILayout.Width(100));
+
+					EditorGUILayout.EndHorizontal();
+
+					if (removed)
+					{
+						Debug.Log($"Removing spriteId at index {i}");
+						RemoveSpriteId(spriteIdsProp, i);
+						i--;
+					}
+				}
+
+				DrawLine();
+
+				if (GUILayout.Button("Add Sprite Id"))
+				{
+					Debug.Log("Adding new spriteId");
+					AddSpriteId(spriteIdsProp);
+				}
+
+				GUILayout.Space(2f);
+			}
+
+			EndBox();
+		}
+
 		private void AddItemId(SerializedProperty itemIdsProp)
 		{
 			itemIdsProp.InsertArrayElementAtIndex(itemIdsProp.arraySize);
@@ -120,13 +169,37 @@ namespace dotmob.Sudoku
 
 			for (int i = 0; i < themesProp.arraySize; i++)
 			{
-				SerializedProperty themeProp		= themesProp.GetArrayElementAtIndex(i);
-				SerializedProperty themeColorsProp	= themeProp.FindPropertyRelative("themeColors");
+				SerializedProperty themeProp = themesProp.GetArrayElementAtIndex(i);
+				SerializedProperty themeColorsProp = themeProp.FindPropertyRelative("themeColors");
 
 				themeColorsProp.InsertArrayElementAtIndex(themeColorsProp.arraySize);
 				themeColorsProp.GetArrayElementAtIndex(themeColorsProp.arraySize - 1).colorValue = Color.white;
 			}
 		}
+		public Sprite defaultSprite; // Убедитесь, что этот спрайт задан в инспекторе или инициализирован
+
+		private void AddSpriteId(SerializedProperty spriteIdsProp)
+		{
+			// Добавляем новый идентификатор спрайта
+			spriteIdsProp.InsertArrayElementAtIndex(spriteIdsProp.arraySize);
+			spriteIdsProp.GetArrayElementAtIndex(spriteIdsProp.arraySize - 1).stringValue = "";
+
+			// Получаем ссылки на темы
+			SerializedProperty themesProp = serializedObject.FindProperty("themes");
+			for (int i = 0; i < themesProp.arraySize; i++)
+			{
+				SerializedProperty themeProp = themesProp.GetArrayElementAtIndex(i);
+				SerializedProperty themeSpritesProp = themeProp.FindPropertyRelative("themeSprite"); // Измените на themeSprites
+
+				// Добавляем новый элемент для спрайта для каждой темы
+				themeSpritesProp.InsertArrayElementAtIndex(themeSpritesProp.arraySize);
+				// Инициализируем новый спрайт на null (или можно установить на другой спрайт по умолчанию)
+				themeSpritesProp.GetArrayElementAtIndex(themeSpritesProp.arraySize - 1).objectReferenceValue = defaultSprite;
+			}
+		}
+
+
+
 
 		private void RemoveItemId(SerializedProperty itemIdsProp, int index)
 		{
@@ -136,10 +209,33 @@ namespace dotmob.Sudoku
 
 			for (int i = 0; i < themesProp.arraySize; i++)
 			{
-				SerializedProperty themeProp		= themesProp.GetArrayElementAtIndex(i);
-				SerializedProperty themeColorsProp	= themeProp.FindPropertyRelative("themeColors");
+				SerializedProperty themeProp = themesProp.GetArrayElementAtIndex(i);
+				SerializedProperty themeColorsProp = themeProp.FindPropertyRelative("themeColors");
 
 				themeColorsProp.DeleteArrayElementAtIndex(index);
+			}
+		}
+
+		// Новый метод для удаления spriteId
+		private void RemoveSpriteId(SerializedProperty spriteIdsProp, int index)
+		{
+			// Удаляем идентификатор спрайта
+			spriteIdsProp.DeleteArrayElementAtIndex(index);
+
+			// Получаем ссылки на темы
+			SerializedProperty themesProp = serializedObject.FindProperty("themes");
+
+			// Удаляем соответствующий спрайт из каждой темы
+			for (int i = 0; i < themesProp.arraySize; i++)
+			{
+				SerializedProperty themeProp = themesProp.GetArrayElementAtIndex(i);
+				SerializedProperty themeSpritesProp = themeProp.FindPropertyRelative("themeSprite");
+
+				// Удаляем спрайт в том же индексе
+				if (index < themeSpritesProp.arraySize) // Проверяем, что индекс не выходит за пределы
+				{
+					themeSpritesProp.DeleteArrayElementAtIndex(index);
+				}
 			}
 		}
 
@@ -242,12 +338,19 @@ namespace dotmob.Sudoku
 		private void DrawThemeItems(SerializedProperty themeProp)
 		{
 			SerializedProperty idsProp = serializedObject.FindProperty("itemIds");
+			SerializedProperty imageProp = serializedObject.FindProperty("spriteIds");
+
 			SerializedProperty colorsProp = themeProp.FindPropertyRelative("themeColors");
+			SerializedProperty spritesProp = themeProp.FindPropertyRelative("themeSprite"); // Используем массив спрайтов
+
+			// Заголовок для цветов
+			EditorGUILayout.LabelField("Theme Colors", EditorStyles.boldLabel);
 
 			for (int i = 0; i < idsProp.arraySize; i++)
 			{
 				SerializedProperty itemIdProp = idsProp.GetArrayElementAtIndex(i);
 
+				// Убедитесь, что цвет для ID существует
 				if (colorsProp.arraySize == i)
 				{
 					colorsProp.InsertArrayElementAtIndex(i);
@@ -255,10 +358,30 @@ namespace dotmob.Sudoku
 				}
 
 				SerializedProperty colorProp = colorsProp.GetArrayElementAtIndex(i);
-
 				string id = itemIdProp.stringValue;
 
 				EditorGUILayout.PropertyField(colorProp, new GUIContent(id));
+			}
+
+			// Заголовок для спрайтов
+			EditorGUILayout.Space(); // Добавляем отступ перед заголовком
+			EditorGUILayout.LabelField("Theme Sprites", EditorStyles.boldLabel);
+
+			for (int i = 0; i < imageProp.arraySize; i++)
+			{
+				SerializedProperty itemIdProp = imageProp.GetArrayElementAtIndex(i);
+
+				// Убедитесь, что спрайт для ID существует
+				if (spritesProp.arraySize == i)
+				{
+					spritesProp.InsertArrayElementAtIndex(i);
+					spritesProp.GetArrayElementAtIndex(i).objectReferenceValue = defaultSprite; // Инициализация спрайта
+				}
+
+				SerializedProperty spriteProp = spritesProp.GetArrayElementAtIndex(i);
+				string id = itemIdProp.stringValue;
+
+				EditorGUILayout.PropertyField(spriteProp, new GUIContent(id)); // Отображение спрайта
 			}
 		}
 

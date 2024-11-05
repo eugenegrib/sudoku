@@ -163,6 +163,11 @@ namespace Sudoku.Framework.Scripts.Screen
             topbar.gameObject.SetActive(false);
         }
 
+        public void toMenu()
+        {
+            Show("gameMenu");
+            topbar.gameObject.SetActive(false);
+        }
         #endregion
 
         #region Private Methods

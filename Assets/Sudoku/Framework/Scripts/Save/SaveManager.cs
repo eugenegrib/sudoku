@@ -111,7 +111,7 @@ namespace Sudoku.Framework.Scripts.Save
 		{
 			var saveJson = saveables.ToDictionary<ISaveable, string, object>(t => t.SaveId, t => t.Save());
 
-			System.IO.File.WriteAllText(SaveFilePath, Utilities.ConvertToJsonString(saveJson));
+			System.IO.File.WriteAllText(SaveFilePath, Utilities.Utilities.ConvertToJsonString(saveJson));
 		}
 
 		/// <summary>

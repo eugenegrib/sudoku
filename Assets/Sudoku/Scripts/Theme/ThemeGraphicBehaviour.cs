@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using dotmob.Sudoku;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Sudoku.Scripts.Theme
@@ -9,7 +7,9 @@ namespace Sudoku.Scripts.Theme
     {
         #region Member Variables
 
-        private List<Graphic> graphics;  // Список всех графических компонентов, которые мы будем менять
+        private Image imageComponent;            // Компонент Image для замены изображения
+        private RawImage rawImageComponent;      // Компонент RawImage для замены изображения
+        private Text textComponent;               // Компонент Text для изменения цвета текста
 
         #endregion
 
@@ -17,12 +17,13 @@ namespace Sudoku.Scripts.Theme
 
         private void Awake()
         {
-            // Собираем только компоненты на этом объекте, а не на дочерних
-            graphics = new List<Graphic>(gameObject.GetComponents<Graphic>());
+            imageComponent = gameObject.GetComponent<Image>();
+            rawImageComponent = gameObject.GetComponent<RawImage>();
+            textComponent = gameObject.GetComponent<Text>();
 
-            if (graphics.Count == 0)
+            if (imageComponent == null && rawImageComponent == null && textComponent == null)
             {
-                Debug.LogError("[ThemeGraphicBehaviour] No Graphic components found on this GameObject, gameObject.name: " + gameObject.name);
+                Debug.LogError("[ThemeGraphicBehaviour] No Image, RawImage, or Text component found on this GameObject, gameObject.name: " + gameObject.name);
             }
         }
 
@@ -32,13 +33,37 @@ namespace Sudoku.Scripts.Theme
 
         protected override void SetColor(Color color)
         {
-            // Устанавливаем цвет только для текущих графических компонентов
-            foreach (var graphic in graphics)
+            // Устанавливаем цвет для Image
+            if (imageComponent != null)
             {
-                if (graphic != null)
-                {
-                    graphic.color = color;
-                }
+                imageComponent.color = color;
+            }
+
+            // Устанавливаем цвет для RawImage
+            if (rawImageComponent != null)
+            {
+                rawImageComponent.color = color;
+            }
+
+            // Устанавливаем цвет для Text
+            if (textComponent != null)
+            {
+                textComponent.color = color;
+            }
+        }
+
+        protected override void SetImage(Sprite sprite)
+        {
+            // Устанавливаем спрайт для компонента Image
+            if (imageComponent != null)
+            {
+                imageComponent.sprite = sprite;
+            }
+
+            // Устанавливаем текстуру для компонента RawImage
+            if (rawImageComponent != null)
+            {
+                rawImageComponent.texture = sprite.texture;
             }
         }
 

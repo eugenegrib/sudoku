@@ -1,8 +1,8 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace dotmob
+namespace Sudoku.Framework.Scripts.Utilities
 {
 	public static class Utilities
 	{
@@ -455,10 +455,10 @@ namespace dotmob
 
 		public static string FormatTimer(float elapsedTime)
 		{
-			int mins = Mathf.FloorToInt(elapsedTime / 60f);
-			int secs = (int)elapsedTime - mins * 60;
+			var mins = Mathf.FloorToInt(elapsedTime / 60f);
+			var secs = (int)elapsedTime - mins * 60;
 
-			return string.Format("{0}:{1}", mins.ToString("00"), secs.ToString("00"));
+			return $"{mins:00}:{secs:00}";
 		}
 
 		#endregion
