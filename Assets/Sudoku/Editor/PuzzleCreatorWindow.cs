@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using System.Collections.Generic;
+using dotmob.Sudoku;
 using UnityEditor;
+using UnityEngine;
 
-namespace dotmob.Sudoku
+namespace Sudoku.Editor
 {
 	public class PuzzleCreatorWindow : EditorWindow
 	{
